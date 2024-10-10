@@ -14,8 +14,11 @@ const Courses = ({ mockedCoursesList, mockedAuthorsList }) => {
       justifyContent='center'
       alignItems='center'
     >
-      <Grid item xs={12}>
+      <Grid item display='flex' justifyContent='space-between' width='66.67% '>
         <SearchBar />
+        <CustomButton className='add-course-button' variant='contained'>
+          Add new course
+        </CustomButton>
       </Grid>
       {mockedCoursesList.map((course) => (
         <Grid item xs={12} sm={6} md={8} key={course.id}>
@@ -27,15 +30,6 @@ const Courses = ({ mockedCoursesList, mockedAuthorsList }) => {
           />
         </Grid>
       ))}
-      <Grid item xs={12}>
-        <CustomButton
-          onClick={() => console.log('Add new course')}
-          className='add-course-button'
-          variant='contained'
-        >
-          Add new course{' '}
-        </CustomButton>
-      </Grid>
     </Grid>
   )
 }
