@@ -29,11 +29,12 @@ const Courses = ({ mockedCoursesList, mockedAuthorsList }) => {
       ))}
       <Grid item xs={12}>
         <CustomButton
-          buttonText='Add new course'
           onClick={() => console.log('Add new course')}
           className='add-course-button'
           variant='contained'
-        />
+        >
+          Add new course{' '}
+        </CustomButton>
       </Grid>
     </Grid>
   )

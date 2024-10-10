@@ -9,11 +9,12 @@ const Header = () => {
     <Grid container justifyContent='space-between' alignItems='center'>
       <Logo />
       <CustomButton
-        buttonText='Logout'
         variant='contained'
         onClick={undefined}
         className='logout-button'
-      />
+      >
+        Logout
+      </CustomButton>
     </Grid>
   )
 }

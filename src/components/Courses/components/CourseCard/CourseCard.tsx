@@ -1,5 +1,10 @@
 import { Card, CardContent, Grid, Typography } from '@mui/material'
+import DeleteIcon from '@mui/icons-material/Delete'
+import EditIcon from '@mui/icons-material/Edit'
 import React from 'react'
+import CustomButton from 'src/common/Button/Button'
+import { formatDuration } from 'src/helpers/getCourseDuration'
+import './CourseCard.scss'
 
 const CourseCard = ({ course, authors }) => {
   return (
@@ -9,15 +14,69 @@ const CourseCard = ({ course, authors }) => {
           {course.title}
         </Typography>
         <Grid display='flex' gap={4}>
-          <Grid xs={9}>
+          <Grid xs={7}>
             <Typography variant='body2' color='text.secondary'>
               {course.description}{' '}
             </Typography>
           </Grid>
-          <Grid xs={3}>
-            <Typography variant='body2'>
-              Authors: {authors.map((author) => author.name).join(', ')}{' '}
-            </Typography>
+          <Grid xs={5} display='flex' flexDirection='column' gap={3}>
+            <Grid>
+              <Grid display='flex' flexDirection='row' gap={2}>
+                <Typography fontWeight='bold' variant='body2'>
+                  Authors:
+                </Typography>
+                <Grid display='flex' flexDirection='column'>
+                  <Typography variant='body2' className='course-autors'>
+                    {authors.map((author) => author.name).join(', ')}{' '}
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Grid display='flex' flexDirection='row' gap={2}>
+                <Typography fontWeight='bold' variant='body2'>
+                  Duration:
+                </Typography>
+                <Grid display='flex' flexDirection='column'>
+                  <Typography variant='body2' className='course-autors'>
+                    {formatDuration(course.duration)}
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Grid display='flex' flexDirection='row' gap={2}>
+                <Typography fontWeight='bold' variant='body2'>
+                  Creation:
+                </Typography>
+                <Grid display='flex' flexDirection='column'>
+                  <Typography variant='body2' className='course-autors'>
+                    {formatDuration(course.duration)}
+                  </Typography>
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid>
+              <Grid display='flex' flexDirection='row' gap={2}>
+                <CustomButton
+                  onClick={undefined}
+                  className={undefined}
+                  variant='contained'
+                >
+                  Show course
+                </CustomButton>
+                <CustomButton
+                  onClick={undefined}
+                  className={undefined}
+                  variant='contained'
+                >
+                  <DeleteIcon />
+                </CustomButton>
+                <CustomButton
+                  onClick={undefined}
+                  className={undefined}
+                  variant='contained'
+                >
+                  <EditIcon />
+                </CustomButton>
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
       </CardContent>
