@@ -2,8 +2,10 @@ import React, { useState } from 'react'
 import { Card, CardContent, Grid, Typography } from '@mui/material'
 import CustomButton from 'src/common/Button/Button'
 import CustomInput from 'src/common/Input/Input'
-import { mockedCoursesList } from 'src/constants'
+import { mockedCoursesList, mockedAuthorsList } from 'src/constants'
 import { formatDuration } from 'src/helpers/getCourseDuration'
+import DeleteIcon from '@mui/icons-material/Delete'
+import EditIcon from '@mui/icons-material/Edit'
 
 const SearchBar = () => {
   const [inputValue, setInputValue] = useState('')
@@ -23,6 +25,12 @@ const SearchBar = () => {
     )
     setSearchResults(foundCourses)
     setSearchAttempted(true)
+  }
+
+  const getAuthorNames = (authorIds) => {
+    return authorIds
+      .map((id) => mockedAuthorsList.find((author) => author.id === id)?.name)
+      .join(', ')
   }
 
   return (
@@ -67,17 +75,46 @@ const SearchBar = () => {
                       {course.description}
                     </Typography>
                   </Grid>
-                  <Grid item xs={5}>
-                    <Typography variant='body2'>ID: {course.id}</Typography>
-                    <Typography variant='body2'>
-                      Authors: {course.authors.join(', ')}
-                    </Typography>
-                    <Typography variant='body2'>
-                      Duration: {formatDuration(course.duration)}
-                    </Typography>
-                    <Typography variant='body2'>
-                      Creation Date: {course.creationDate}
-                    </Typography>
+                  <Grid item xs={5} gap={4}>
+                    <Grid display='flex' flexDirection='column' gap={3}>
+                      <Grid>
+                        <Typography variant='body2'>ID: {course.id}</Typography>
+                        <Typography variant='body2'>
+                          Authors: {getAuthorNames(course.authors)}
+                        </Typography>
+                        <Typography variant='body2'>
+                          Duration: {formatDuration(course.duration)}
+                        </Typography>
+                        <Typography variant='body2'>
+                          Creation Date: {course.creationDate}
+                        </Typography>
+                      </Grid>
+                      <Grid>
+                        <Grid display='flex' flexDirection='row' gap={2}>
+                          <CustomButton
+                            onClick={undefined}
+                            className={undefined}
+                            variant='contained'
+                          >
+                            Show course
+                          </CustomButton>
+                          <CustomButton
+                            onClick={undefined}
+                            className={undefined}
+                            variant='contained'
+                          >
+                            <DeleteIcon />
+                          </CustomButton>
+                          <CustomButton
+                            onClick={undefined}
+                            className={undefined}
+                            variant='contained'
+                          >
+                            <EditIcon />
+                          </CustomButton>
+                        </Grid>
+                      </Grid>
+                    </Grid>
                   </Grid>
                 </Grid>
               </CardContent>
