@@ -6,11 +6,13 @@ import { mockedCoursesList, mockedAuthorsList } from 'src/constants'
 import { formatDuration } from 'src/helpers/getCourseDuration'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
+import CourseInfo from 'src/components/CourseInfo/CourseInfo'
 
 const SearchBar = () => {
   const [inputValue, setInputValue] = useState('')
   const [searchResults, setSearchResults] = useState([])
   const [searchAttempted, setSearchAttempted] = useState(false)
+  const [selectedCourse, setSelectedCourse] = useState(null) // State to track selected course
 
   const handleInputChange = (event) => {
     setInputValue(event.target.value)
@@ -25,12 +27,21 @@ const SearchBar = () => {
     )
     setSearchResults(foundCourses)
     setSearchAttempted(true)
+    setSelectedCourse(null)
   }
 
   const getAuthorNames = (authorIds) => {
     return authorIds
       .map((id) => mockedAuthorsList.find((author) => author.id === id)?.name)
       .join(', ')
+  }
+
+  const handleShowCourse = (course) => {
+    setSelectedCourse(course)
+  }
+
+  const handleBack = () => {
+    setSelectedCourse(null)
   }
 
   return (
@@ -92,7 +103,7 @@ const SearchBar = () => {
                       <Grid>
                         <Grid display='flex' flexDirection='row' gap={2}>
                           <CustomButton
-                            onClick={undefined}
+                            onClick={() => handleShowCourse(course)}
                             className={undefined}
                             variant='contained'
                           >
@@ -123,6 +134,9 @@ const SearchBar = () => {
         ) : searchAttempted ? (
           <Typography>No courses found.</Typography>
         ) : null}
+        {selectedCourse && (
+          <CourseInfo course={selectedCourse} onBack={handleBack} />
+        )}
       </Grid>
     </Grid>
   )

@@ -1,11 +1,11 @@
 import React from 'react'
 import { Card, CardContent, Typography, Grid } from '@mui/material'
-import { formatDuration } from 'src/helpers/getCourseDuration'
 import CustomButton from 'src/common/Button/Button'
-import { mockedCoursesList, mockedAuthorsList } from 'src/constants'
+import { formatDuration } from 'src/helpers/getCourseDuration'
+import { mockedAuthorsList } from 'src/constants'
 
-const CourseInfo = ({ courseId }) => {
-  const course = mockedCoursesList.find((course) => course.id === courseId)
+const CourseInfo = ({ course, onBack }) => {
+  if (!course) return null
 
   const authors = course.authors
     .map(
@@ -30,7 +30,7 @@ const CourseInfo = ({ courseId }) => {
                 </Typography>
               </Grid>
               <Grid item xs={5}>
-                <Typography variant='body2'>ID: {courseId}</Typography>
+                <Typography variant='body2'>ID: {course.id}</Typography>
                 <Typography variant='body2'>Authors: {authors}</Typography>
                 <Typography variant='body2'>
                   Duration: {formatDuration(course.duration)}
@@ -44,7 +44,9 @@ const CourseInfo = ({ courseId }) => {
         </Card>
       </Grid>
       <Grid item xs={12} container justifyContent='flex-end'>
-        <CustomButton variant='contained'>Back</CustomButton>
+        <CustomButton variant='contained' onClick={onBack}>
+          Back
+        </CustomButton>
       </Grid>
     </Grid>
   )
