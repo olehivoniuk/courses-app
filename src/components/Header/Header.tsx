@@ -6,13 +6,14 @@ import CustomButton from 'src/common/Button/Button'
 
 const Header = () => {
   return (
-    <Grid container justifyContent='space-between' alignItems='center'>
+    <Grid
+      container
+      justifyContent='space-between'
+      alignItems='center'
+      className='header'
+    >
       <Logo />
-      <CustomButton
-        variant='contained'
-        onClick={undefined}
-        className='logout-button'
-      >
+      <CustomButton variant='contained' onClick={undefined}>
         Logout
       </CustomButton>
     </Grid>
