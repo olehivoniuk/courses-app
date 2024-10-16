@@ -4,7 +4,19 @@ import CustomButton from 'src/common/Button/Button'
 import { formatDuration } from 'src/helpers/getCourseDuration'
 import { mockedAuthorsList } from 'src/constants'
 
-const CourseInfo = ({ course, onBack }) => {
+interface CourseInfoProps {
+  course?: {
+    title: string
+    description: string
+    id: string
+    authors: string[]
+    duration: number
+    creationDate: string
+  }
+  onBack?: () => void
+}
+
+const CourseInfo: React.FC<CourseInfoProps> = ({ course, onBack }) => {
   if (!course) return null
 
   const authors = course.authors
