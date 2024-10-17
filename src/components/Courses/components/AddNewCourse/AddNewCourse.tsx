@@ -28,7 +28,7 @@ const AddNewCourse = () => {
           gap={2}
         >
           <Typography variant='h6'>Main Info</Typography>
-          <CustomInput label='title' />
+          <CustomInput label='title' className='title-input' />
           <TextField
             label='Description'
             multiline
@@ -45,12 +45,15 @@ const AddNewCourse = () => {
             <Grid display='flex' flexDirection='column' gap={2}>
               <Typography variant='h6'>Duration</Typography>
               <Grid display='flex' gap={2} alignItems='center'>
-                <CustomInput label='Duration' />
+                <CustomInput label='Duration' className='duration-input' />
                 <Typography variant='body1'>00:00</Typography>
               </Grid>
               <Typography variant='h6'>Authors</Typography>
               <Grid display='flex' gap={2}>
-                <CustomInput label='Author name' />
+                <CustomInput
+                  label='Author name'
+                  className='author-name-input'
+                />
                 <CustomButton variant='contained'>Create author</CustomButton>
               </Grid>
             </Grid>
