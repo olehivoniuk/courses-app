@@ -4,6 +4,8 @@ import CustomButton from 'src/common/Button/Button'
 import CustomInput from 'src/common/Input/Input'
 import './Registration.scss'
 
+const handleSubmit = () => {}
+
 const Registration = () => {
   return (
     <Grid
@@ -14,42 +16,44 @@ const Registration = () => {
       gap={4}
     >
       <Typography variant='h3'>Registration</Typography>
-      <Grid
-        item
-        className='registation-container-form'
-        display='flex'
-        flexDirection='column'
-        gap={4}
-      >
-        <CustomInput
-          placeholder='Input text'
-          variant={undefined}
-          value={undefined}
-          onChange={undefined}
-          label='Name'
-          className='email-input'
-        />
-        <CustomInput
-          placeholder='Input text'
-          variant={undefined}
-          value={undefined}
-          onChange={undefined}
-          label='Email'
-          className='email-input'
-        />
-        <CustomInput
-          placeholder='Input text'
-          variant={undefined}
-          value={undefined}
-          onChange={undefined}
-          label='Password'
-          className='email-input'
-        />
-        <CustomButton variant='contained'>Login</CustomButton>
-        <Typography variant='body2'>
-          If you have an account you may <Link>Login</Link>
-        </Typography>
-      </Grid>
+      <form onSubmit={handleSubmit}>
+        <Grid
+          item
+          className='registation-container-form'
+          display='flex'
+          flexDirection='column'
+          gap={4}
+        >
+          <CustomInput
+            placeholder='Input text'
+            variant={undefined}
+            value={undefined}
+            onChange={undefined}
+            label='Name'
+            className='email-input'
+          />
+          <CustomInput
+            placeholder='Input text'
+            variant={undefined}
+            value={undefined}
+            onChange={undefined}
+            label='Email'
+            className='email-input'
+          />
+          <CustomInput
+            placeholder='Input text'
+            variant={undefined}
+            value={undefined}
+            onChange={undefined}
+            label='Password'
+            className='email-input'
+          />
+          <CustomButton variant='contained'>Registration</CustomButton>
+          <Typography variant='body2'>
+            If you have an account you may <Link>Login</Link>
+          </Typography>
+        </Grid>
+      </form>
     </Grid>
   )
 }

@@ -6,19 +6,23 @@ import './App.scss'
 // import EmptyCourseList from './components/EmptyCourseList/EmptyCourseList'
 // import CourseInfo from './components/CourseInfo/CourseInfo'
 import { Grid } from '@mui/material'
-import Registration from './components/Registration/Registration'
+import AddNewCourse from './components/Courses/components/AddNewCourse/AddNewCourse'
+// import Registration from './components/Registration/Registration'
+// import Login from './components/Login/Login'
 
 function App() {
   return (
     <Grid display='flex' flexDirection='column' gap={5}>
       <Header />
+      <AddNewCourse />
       {/* <Courses
         mockedCoursesList={mockedCoursesList}
         mockedAuthorsList={mockedAuthorsList}
       />
       <EmptyCourseList />
       <CourseInfo /> */}
-      <Registration />
+      {/* <Registration /> */}
+      {/* <Login /> */}
     </Grid>
   )
 }
