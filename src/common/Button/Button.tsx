@@ -8,9 +8,15 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   onClick,
   className,
   variant,
+  type,
 }) => {
   return (
-    <Button onClick={onClick} className={className} variant={variant}>
+    <Button
+      onClick={onClick}
+      className={className}
+      variant={variant}
+      type={type}
+    >
       {children}
     </Button>
   )

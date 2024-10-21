@@ -22,7 +22,7 @@ function App() {
 
       <Routes>
         <Route
-          path='/'
+          path='/course'
           element={
             <Courses
               mockedCoursesList={mockedCoursesList}
@@ -33,7 +33,7 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/registration' element={<Registration />} />
         <Route path='/courses/:courseId' element={<CourseInfo />} />
-        <Route path='*' element={<Navigate to='/' />} />
+        <Route path='*' element={<Navigate to='/login' />} />
       </Routes>
     </Grid>
   )

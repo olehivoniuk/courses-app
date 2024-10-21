@@ -10,6 +10,10 @@ interface CustomInputProps {
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
   label?: string
   className?: string
+  type?: string
+  autoComplete?: string
+  helperText?: string
+  error?: boolean
 }
 
 const CustomInput: React.FC<CustomInputProps> = ({
@@ -19,6 +23,10 @@ const CustomInput: React.FC<CustomInputProps> = ({
   onChange,
   label,
   className,
+  type,
+  autoComplete,
+  error,
+  helperText,
 }) => {
   return (
     <Grid>
@@ -29,6 +37,11 @@ const CustomInput: React.FC<CustomInputProps> = ({
         onChange={onChange}
         label={label}
         className={className}
+        type={type}
+        autoComplete={autoComplete}
+        error={error}
+        helperText={helperText}
+        fullWidth
       />
     </Grid>
   )

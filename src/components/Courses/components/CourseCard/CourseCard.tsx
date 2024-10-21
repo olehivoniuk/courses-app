@@ -15,12 +15,12 @@ const CourseCard = ({ course, authors }) => {
           {course.title}
         </Typography>
         <Grid display='flex' gap={4}>
-          <Grid xs={7}>
+          <Grid item xs={7}>
             <Typography variant='body2' color='text.secondary'>
               {course.description}{' '}
             </Typography>
           </Grid>
-          <Grid xs={5} display='flex' flexDirection='column' gap={3}>
+          <Grid item xs={5} display='flex' flexDirection='column' gap={3}>
             <Grid>
               <Grid display='flex' flexDirection='row' gap={2}>
                 <Typography fontWeight='bold' variant='body2'>

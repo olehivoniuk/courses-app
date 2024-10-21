@@ -3,4 +3,5 @@ export interface CustomButtonProps {
   onClick?: () => void
   className?: string
   variant?: 'text' | 'outlined' | 'contained'
+  type?: 'button' | 'submit' | 'reset'
 }
