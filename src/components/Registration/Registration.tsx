@@ -76,9 +76,6 @@ const Registration = () => {
       setEmail('')
       setPassword('')
       navigate('/login')
-
-      const data = await response.json()
-      console.log(data)
     } catch (error) {
       console.error('Failed to register:', error)
     }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Grid, Typography } from '@mui/material'
 import { Link, useNavigate } from 'react-router-dom'
 import CustomButton from 'src/common/Button/Button'
@@ -15,6 +15,12 @@ const Login = () => {
   const [passwordHelperText, setPasswordHelperText] = useState('')
 
   const navigate = useNavigate()
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    if (token) {
+      navigate('/courses')
+    }
+  }, [navigate])
   const url = 'http://localhost:4000/login'
 
   const handleLoginSubmit = async (event) => {
@@ -58,14 +64,19 @@ const Login = () => {
       if (!response.ok) {
         throw new Error(`HTTP error: ${response.status}`)
       }
-      setEmail('')
-      setPassword('')
-      navigate('/course')
 
       const data = await response.json()
-      console.log(data)
+      if (data.successful && data.result) {
+        localStorage.setItem('token', data.result)
+
+        setEmail('')
+        setPassword('')
+        navigate('/courses')
+      } else {
+        console.error('Login failed:', data)
+      }
     } catch (error) {
-      console.error('Failed to register:', error)
+      console.error('Failed to login:', error)
     }
   }
   const onRegisterEmail = (event) => {

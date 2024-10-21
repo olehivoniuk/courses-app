@@ -22,7 +22,7 @@ function App() {
 
       <Routes>
         <Route
-          path='/course'
+          path='/courses'
           element={
             <Courses
               mockedCoursesList={mockedCoursesList}
