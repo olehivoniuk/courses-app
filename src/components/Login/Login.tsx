@@ -1,4 +1,5 @@
-import { Grid, Link, Typography } from '@mui/material'
+import { Grid, Typography } from '@mui/material'
+import { Link } from 'react-router-dom'
 import React from 'react'
 import CustomButton from 'src/common/Button/Button'
 import CustomInput from 'src/common/Input/Input'
@@ -42,7 +43,8 @@ const Login = () => {
           />
           <CustomButton variant='contained'>Login</CustomButton>
           <Typography variant='body2'>
-            If you have an account you may <Link>Register</Link>
+            If you have an account you may{' '}
+            <Link to='/registration'>Register</Link>
           </Typography>
         </Grid>
       </form>

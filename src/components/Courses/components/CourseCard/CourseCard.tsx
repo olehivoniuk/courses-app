@@ -5,6 +5,7 @@ import React from 'react'
 import CustomButton from 'src/common/Button/Button'
 import { formatDuration } from 'src/helpers/getCourseDuration'
 import './CourseCard.scss'
+import { Link } from 'react-router-dom'
 
 const CourseCard = ({ course, authors }) => {
   return (
@@ -59,7 +60,7 @@ const CourseCard = ({ course, authors }) => {
                   className={undefined}
                   variant='contained'
                 >
-                  Show course
+                  <Link to={`/courses/${course.id}`}>SHOW COURSE</Link>{' '}
                 </CustomButton>
                 <CustomButton
                   onClick={undefined}

@@ -7,6 +7,7 @@ import { formatDuration } from 'src/helpers/getCourseDuration'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import CourseInfo from 'src/components/CourseInfo/CourseInfo'
+import { Link } from 'react-router-dom'
 
 const SearchBar = () => {
   const [inputValue, setInputValue] = useState('')
@@ -107,7 +108,9 @@ const SearchBar = () => {
                             className={undefined}
                             variant='contained'
                           >
-                            Show course
+                            <Link to={`/courses/${course.id}`}>
+                              SHOW COURSE
+                            </Link>
                           </CustomButton>
                           <CustomButton
                             onClick={undefined}

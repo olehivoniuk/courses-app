@@ -1,8 +1,9 @@
-import { Grid, Link, Typography } from '@mui/material'
+import { Grid, Typography } from '@mui/material'
 import React from 'react'
 import CustomButton from 'src/common/Button/Button'
 import CustomInput from 'src/common/Input/Input'
 import './Registration.scss'
+import { Link } from 'react-router-dom'
 
 const handleSubmit = () => {}
 
@@ -50,7 +51,7 @@ const Registration = () => {
           />
           <CustomButton variant='contained'>Registration</CustomButton>
           <Typography variant='body2'>
-            If you have an account you may <Link>Login</Link>
+            If you have an account you may <Link to='/login'>Login</Link>
           </Typography>
         </Grid>
       </form>
