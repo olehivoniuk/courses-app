@@ -6,10 +6,10 @@ import { mockedCoursesList, mockedAuthorsList } from './constants'
 // import EmptyCourseList from './components/EmptyCourseList/EmptyCourseList'
 import CourseInfo from './components/CourseInfo/CourseInfo'
 import { Grid } from '@mui/material'
-import AddNewCourse from './components/Courses/components/AddNewCourse/AddNewCourse'
 import Registration from './components/Registration/Registration'
 import Login from './components/Login/Login'
 import { Routes, Route, Navigate } from 'react-router-dom'
+import CreateCourse from './components/CreateCourse/CreateCourse'
 
 function App() {
   return (
@@ -32,7 +32,7 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/registration' element={<Registration />} />
         <Route path='/courses/:courseId' element={<CourseInfo />} />
-        <Route path='/courses/add' element={<AddNewCourse />} />
+        <Route path='/courses/add' element={<CreateCourse />} />
         <Route path='*' element={<Navigate to='/login' />} />
       </Routes>
     </Grid>
