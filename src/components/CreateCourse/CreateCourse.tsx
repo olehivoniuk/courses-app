@@ -32,7 +32,7 @@ const CreateCourse = () => {
 
   const addAuthorName = () => {
     const newAuthor = {
-      id: new Date().getTime(), // Using the current timestamp as an ID
+      id: new Date().getTime(),
       name: authorName,
     }
     setAuthors((prevAuthors) => [...prevAuthors, newAuthor])
@@ -44,6 +44,38 @@ const CreateCourse = () => {
       prevAuthors.filter((author) => author.id !== id),
     )
   }
+  const url = 'http://localhost:4000/courses/add'
+
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+    const token = localStorage.getItem('token')
+    const courseData = {
+      title,
+      description,
+      duration: parseInt(duration),
+      authors: authors.map((author) => author.name),
+    }
+
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `${token}`,
+        },
+        body: JSON.stringify(courseData),
+      })
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      const data = await response.json()
+      console.log('Course created successfully:', data)
+    } catch (error) {
+      console.error('Failed to create course:', error)
+    }
+  }
 
   return (
     <Grid
@@ -53,95 +85,99 @@ const CreateCourse = () => {
       flexDirection='column'
       gap={2}
     >
-      <Grid
-        display='flex'
-        justifyContent='start'
-        flexDirection='column'
-        gap={2}
-      >
-        <Typography variant='h4'>Course Edit / Create Page</Typography>
+      <form onSubmit={handleSubmit}>
         <Grid
-          className='add-new-course-container'
           display='flex'
+          justifyContent='start'
           flexDirection='column'
           gap={2}
         >
-          <Typography variant='h6'>Main Info</Typography>
-          <CustomInput
-            value={title}
-            onChange={handleTitleChange}
-            label='title'
-            className='title-input'
-          />
-          <TextField
-            value={description}
-            onChange={handleDescriptionChange}
-            label='Description'
-            multiline
-            rows={4}
-            placeholder='input text'
-            variant='outlined'
-          />
+          <Typography variant='h4'>Course Edit / Create Page</Typography>
           <Grid
+            className='add-new-course-container'
             display='flex'
-            justifyContent='space-between'
-            alignItems='center'
+            flexDirection='column'
             gap={2}
           >
-            <Grid display='flex' flexDirection='column' gap={2}>
-              <Typography variant='h6'>Duration</Typography>
-              <Grid display='flex' gap={2} alignItems='center'>
-                <CustomInput
-                  value={duration}
-                  onChange={handleDurationChange}
-                  label='Duration'
-                  className='duration-input'
-                />
-                <Typography variant='body1'>
-                  {' '}
-                  {duration ? formatDuration(parseInt(duration)) : ''}
-                </Typography>
-              </Grid>
-              <Typography variant='h6'>Authors</Typography>
-              <Grid display='flex' gap={2}>
-                <CustomInput
-                  value={authorName}
-                  onChange={hanldeAuthourNameChange}
-                  label='Author name'
-                  className='author-name-input'
-                />
-                <CustomButton onClick={addAuthorName} variant='contained'>
-                  Create author
-                </CustomButton>
-              </Grid>
-            </Grid>
-            <Grid>
-              <Typography variant='h6'>Course Authors</Typography>
-              {authors.length > 0 ? (
-                authors.map((author, index) => (
-                  <Typography key={index} variant='body1'>
-                    {author.name}
+            <Typography variant='h6'>Main Info</Typography>
+            <CustomInput
+              value={title}
+              onChange={handleTitleChange}
+              label='title'
+              className='title-input'
+            />
+            <TextField
+              value={description}
+              onChange={handleDescriptionChange}
+              label='Description'
+              multiline
+              rows={4}
+              placeholder='input text'
+              variant='outlined'
+            />
+            <Grid
+              display='flex'
+              justifyContent='space-between'
+              alignItems='center'
+              gap={2}
+            >
+              <Grid display='flex' flexDirection='column' gap={2}>
+                <Typography variant='h6'>Duration</Typography>
+                <Grid display='flex' gap={2} alignItems='center'>
+                  <CustomInput
+                    value={duration}
+                    onChange={handleDurationChange}
+                    label='Duration'
+                    className='duration-input'
+                  />
+                  <Typography variant='body1'>
+                    {' '}
+                    {duration ? formatDuration(parseInt(duration)) : ''}
                   </Typography>
-                ))
-              ) : (
-                <Typography variant='body1'>Author list is empty</Typography>
-              )}
+                </Grid>
+                <Typography variant='h6'>Authors</Typography>
+                <Grid display='flex' gap={2}>
+                  <CustomInput
+                    value={authorName}
+                    onChange={hanldeAuthourNameChange}
+                    label='Author name'
+                    className='author-name-input'
+                  />
+                  <CustomButton onClick={addAuthorName} variant='contained'>
+                    Create author
+                  </CustomButton>
+                </Grid>
+              </Grid>
+              <Grid>
+                <Typography variant='h6'>Course Authors</Typography>
+                {authors.length > 0 ? (
+                  authors.map((author, index) => (
+                    <Typography key={index} variant='body1'>
+                      {author.name}
+                    </Typography>
+                  ))
+                ) : (
+                  <Typography variant='body1'>Author list is empty</Typography>
+                )}
+              </Grid>
             </Grid>
-          </Grid>
-          <Typography variant='h6'>Authors list</Typography>
+            <Typography variant='h6'>Authors list</Typography>
 
-          <AuthorItem authors={authors} removeAuthor={removeAuthor} />
+            <AuthorItem authors={authors} removeAuthor={removeAuthor} />
+          </Grid>
+          <Grid
+            display='flex'
+            flexDirection='row'
+            gap={2}
+            justifyContent='flex-end'
+          >
+            <CustomButton variant='contained'>Cancel</CustomButton>
+            <CustomButton type='submit' variant='contained'>
+              Create course
+            </CustomButton>
+          </Grid>
         </Grid>
-        <Grid
-          display='flex'
-          flexDirection='row'
-          gap={2}
-          justifyContent='flex-end'
-        >
-          <CustomButton variant='contained'>Cancel</CustomButton>
-          <CustomButton variant='contained'>Create course</CustomButton>
-        </Grid>
-      </Grid>
+      </form>
     </Grid>
   )
 }

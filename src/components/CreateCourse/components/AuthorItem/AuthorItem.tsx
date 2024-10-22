@@ -8,7 +8,7 @@ const AuthorItem = ({ authors, removeAuthor }) => {
     <div>
       {authors.map((author) => (
         <Grid key={author.id} display='flex' alignItems='center'>
-          <Typography variant='body1'>{author.name}&nbsp; + &nbsp;</Typography>
+          <Typography variant='body1'>{author.name}&nbsp;&nbsp;+</Typography>
           <CustomButton onClick={() => removeAuthor(author.id)}>
             <DeleteOutlineIcon />
           </CustomButton>
