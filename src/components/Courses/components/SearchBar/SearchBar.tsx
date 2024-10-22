@@ -8,15 +8,22 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import CourseInfo from 'src/components/CourseInfo/CourseInfo'
 import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const SearchBar = () => {
   const [inputValue, setInputValue] = useState('')
   const [searchResults, setSearchResults] = useState([])
   const [searchAttempted, setSearchAttempted] = useState(false)
-  const [selectedCourse, setSelectedCourse] = useState(null) // State to track selected course
+  const [selectedCourse, setSelectedCourse] = useState(null)
+
+  const navigate = useNavigate()
 
   const handleInputChange = (event) => {
     setInputValue(event.target.value)
+  }
+
+  const handleAddNewCourse = () => {
+    navigate('/courses/add')
   }
 
   const handleSearchClick = () => {
@@ -60,7 +67,11 @@ const SearchBar = () => {
           </CustomButton>
         </Grid>
         <Grid>
-          <CustomButton className='add-course-button' variant='contained'>
+          <CustomButton
+            onClick={handleAddNewCourse}
+            className='add-course-button'
+            variant='contained'
+          >
             Add new course
           </CustomButton>
         </Grid>

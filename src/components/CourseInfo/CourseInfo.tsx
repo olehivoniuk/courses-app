@@ -36,7 +36,7 @@ const CourseInfo: React.FC<CourseInfoProps> = ({ course, onBack }) => {
     .join(', ')
 
   const defaultBack = () => {
-    navigate(-1)
+    navigate('/courses')
   }
 
   const handleBack = onBack || defaultBack

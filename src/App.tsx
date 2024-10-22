@@ -6,7 +6,7 @@ import { mockedCoursesList, mockedAuthorsList } from './constants'
 // import EmptyCourseList from './components/EmptyCourseList/EmptyCourseList'
 import CourseInfo from './components/CourseInfo/CourseInfo'
 import { Grid } from '@mui/material'
-// import AddNewCourse from './components/Courses/components/AddNewCourse/AddNewCourse'
+import AddNewCourse from './components/Courses/components/AddNewCourse/AddNewCourse'
 import Registration from './components/Registration/Registration'
 import Login from './components/Login/Login'
 import { Routes, Route, Navigate } from 'react-router-dom'
@@ -15,7 +15,6 @@ function App() {
   return (
     <Grid display='flex' flexDirection='column' gap={5}>
       <Header />
-      {/* <AddNewCourse /> */}
       {/* 
       <EmptyCourseList />
       */}
@@ -33,6 +32,7 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/registration' element={<Registration />} />
         <Route path='/courses/:courseId' element={<CourseInfo />} />
+        <Route path='/courses/add' element={<AddNewCourse />} />
         <Route path='*' element={<Navigate to='/login' />} />
       </Routes>
     </Grid>
