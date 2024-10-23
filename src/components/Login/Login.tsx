@@ -68,6 +68,7 @@ const Login = () => {
       const data = await response.json()
       if (data.successful && data.result) {
         localStorage.setItem('token', data.result)
+        localStorage.setItem('username', data.user.name)
 
         setEmail('')
         setPassword('')

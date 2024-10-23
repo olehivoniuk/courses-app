@@ -9,21 +9,70 @@ import AuthorItem from './components/AuthorItem/AuthorItem'
 
 const CreateCourse = () => {
   const [title, setTitle] = useState('')
+  const [isTitleValid, setIsTitleValid] = useState(true)
+  const [titleHelperText, setTitleHelperText] = useState('')
+
   const [description, setDescription] = useState('')
+  const [isDescriptionValid, setIsDescriptionValid] = useState(true)
+  const [descriptionHelperText, setDescriptionHelperText] = useState('')
+
   const [duration, setDuration] = useState('')
+  const [isDurationValid, setIsDurationValid] = useState(true)
+  const [durationHelperText, setDurationHelperText] = useState('')
+
   const [authorName, setAuthourName] = useState('')
   const [authors, setAuthors] = useState([])
 
-  const handleTitleChange = (e) => {
-    setTitle(e.target.value)
+  const validateTitle = (title) => {
+    if (!title.trim()) {
+      setIsTitleValid(false)
+      setTitleHelperText('Title cannot be empty')
+      return false
+    }
+    setIsTitleValid(true)
+    setTitleHelperText('')
+    return true
   }
 
+  const validateDescription = (description) => {
+    if (!description.trim() || description.length < 20) {
+      setIsDescriptionValid(false)
+      setDescriptionHelperText(
+        'Description must be at least 20 characters long',
+      )
+      return false
+    }
+    setIsDescriptionValid(true)
+    setDescriptionHelperText('')
+    return true
+  }
+
+  const validateDuration = (duration) => {
+    if (!duration.trim() || isNaN(duration) || parseInt(duration) < 0) {
+      setIsDurationValid(false)
+      setDurationHelperText('Duration must be a positive number')
+      return false
+    }
+    setIsDurationValid(true)
+    setDurationHelperText('')
+    return true
+  }
+
+  const handleTitleChange = (e) => {
+    setTitle(e.target.value)
+    validateTitle(e.target.value)
+  }
   const handleDescriptionChange = (e) => {
     setDescription(e.target.value)
+    validateDescription(e.target.value)
   }
 
   const handleDurationChange = (e) => {
-    setDuration(e.target.value)
+    const value = e.target.value
+    if (value === '' || /^[0-9\b]+$/.test(value)) {
+      setDuration(value)
+      validateDuration(value)
+    }
   }
 
   const hanldeAuthourNameChange = (e) => {
@@ -48,6 +97,13 @@ const CreateCourse = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault()
+    const isTitleValid = validateTitle(title)
+    const isDescriptionValid = validateDescription(description)
+    const isDurationValid = validateDuration(duration)
+
+    if (!isTitleValid || !isDescriptionValid || !isDurationValid) {
+      return
+    }
     const token = localStorage.getItem('token')
     const courseData = {
       title,
@@ -104,7 +160,9 @@ const CreateCourse = () => {
               value={title}
               onChange={handleTitleChange}
               label='title'
-              className='title-input'
+              className={`title-input ${!isTitleValid ? 'input-error' : ''}`}
+              error={!isTitleValid}
+              helperText={titleHelperText}
             />
             <TextField
               value={description}
@@ -114,6 +172,9 @@ const CreateCourse = () => {
               rows={4}
               placeholder='input text'
               variant='outlined'
+              error={!isDescriptionValid}
+              helperText={descriptionHelperText}
+              fullWidth
             />
             <Grid
               display='flex'
@@ -128,7 +189,9 @@ const CreateCourse = () => {
                     value={duration}
                     onChange={handleDurationChange}
                     label='Duration'
-                    className='duration-input'
+                    className={`duration-input ${!isDurationValid ? 'input-error' : ''}`}
+                    error={!isDurationValid}
+                    helperText={durationHelperText}
                   />
                   <Typography variant='body1'>
                     {' '}
