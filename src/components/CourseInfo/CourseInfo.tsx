@@ -2,6 +2,7 @@ import React from 'react'
 import { Card, CardContent, Typography, Grid } from '@mui/material'
 import CustomButton from 'src/common/Button/Button'
 import { useParams, useNavigate } from 'react-router-dom'
+import { formatDate } from 'src/helpers/formatCreationDate'
 
 interface CourseInfoProps {
   course?: {
@@ -15,7 +16,7 @@ interface CourseInfoProps {
   onBack?: () => void
 }
 
-const CourseInfo: React.FC<CourseInfoProps> = ({ course, onBack }) => {
+const CourseInfo: React.FC<CourseInfoProps> = ({ onBack }) => {
   const params = useParams()
   const navigate = useNavigate()
 
@@ -41,11 +42,11 @@ const CourseInfo: React.FC<CourseInfoProps> = ({ course, onBack }) => {
                 </Typography>
               </Grid>
               <Grid item xs={5}>
-                <Typography variant='body2'>ID:</Typography>
+                <Typography variant='body2'>ID: {params.courseId}</Typography>
                 <Typography variant='body2'>Authors: fake authors</Typography>
                 <Typography variant='body2'>Duration:</Typography>
                 <Typography variant='body2'>
-                  Creation Date: data of createon
+                  Creation Date: {formatDate(Number(params.courseId))}
                 </Typography>
               </Grid>
             </Grid>

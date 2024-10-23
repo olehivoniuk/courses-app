@@ -9,6 +9,7 @@ import EditIcon from '@mui/icons-material/Edit'
 import CourseInfo from 'src/components/CourseInfo/CourseInfo'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
+import EmptyCourseList from 'src/components/EmptyCourseList/EmptyCourseList'
 
 const SearchBar = () => {
   const [inputValue, setInputValue] = useState('')
@@ -154,7 +155,7 @@ const SearchBar = () => {
             </Card>
           ))
         ) : searchAttempted ? (
-          <Typography>No courses found.</Typography>
+          <EmptyCourseList />
         ) : null}
         {selectedCourse && (
           <CourseInfo course={selectedCourse} onBack={handleBack} />

@@ -3,13 +3,13 @@ import { Grid } from '@mui/material'
 import CourseCard from './components/CourseCard/CourseCard'
 import SearchBar from './components/SearchBar/SearchBar'
 
-const Courses = ({ mockedCoursesList, mockedAuthorsList }) => {
+const Courses = () => {
   const [courses, setCourses] = useState([])
 
   useEffect(() => {
     const storedCourses = JSON.parse(localStorage.getItem('courses')) || []
     setCourses([...storedCourses])
-  }, [mockedCoursesList])
+  }, [])
 
   const handleDeleteCourse = (courseId) => {
     const updatedCourses = courses.filter((course) => course.id !== courseId)
