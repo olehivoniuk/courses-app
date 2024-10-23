@@ -6,6 +6,7 @@ import CustomButton from 'src/common/Button/Button'
 import { formatDuration } from 'src/helpers/getCourseDuration'
 import './CourseCard.scss'
 import { Link } from 'react-router-dom'
+import { formatDate } from 'src/helpers/formatCreationDate'
 
 const CourseCard = ({ course, authors, onDelete }) => {
   return (
@@ -28,7 +29,9 @@ const CourseCard = ({ course, authors, onDelete }) => {
                 </Typography>
                 <Grid display='flex' flexDirection='column'>
                   <Typography variant='body2' className='course-authors'>
-                    {authors.map((author) => author.name).join(', ')}
+                    {authors?.length > 0
+                      ? authors.map((author) => author.name).join(', ')
+                      : 'No authors'}
                   </Typography>
                 </Grid>
               </Grid>
@@ -48,7 +51,7 @@ const CourseCard = ({ course, authors, onDelete }) => {
                 </Typography>
                 <Grid display='flex' flexDirection='column'>
                   <Typography variant='body2' className='course-authors'>
-                    {formatDuration(course.duration)}
+                    {formatDate(course.id)}
                   </Typography>
                 </Grid>
               </Grid>

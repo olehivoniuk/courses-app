@@ -40,9 +40,7 @@ const Courses = ({ mockedCoursesList, mockedAuthorsList }) => {
           <Grid item xs={12} sm={6} md={8} key={course.id}>
             <CourseCard
               course={course}
-              authors={mockedAuthorsList.filter((author) =>
-                course.authors.includes(author.id),
-              )}
+              authors={course.authors.map((name) => ({ name }))}
               onDelete={() => handleDeleteCourse(course.id)}
             />
           </Grid>
