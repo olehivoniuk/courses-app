@@ -6,6 +6,7 @@ import CustomInput from 'src/common/Input/Input'
 import CustomButton from 'src/common/Button/Button'
 import { formatDuration } from 'src/helpers/getCourseDuration'
 import AuthorItem from './components/AuthorItem/AuthorItem'
+import { useNavigate } from 'react-router-dom'
 
 const CreateCourse = () => {
   const [title, setTitle] = useState('')
@@ -22,6 +23,8 @@ const CreateCourse = () => {
 
   const [authorName, setAuthourName] = useState('')
   const [authors, setAuthors] = useState([])
+
+  const navigate = useNavigate()
 
   const validateTitle = (title) => {
     if (!title.trim()) {
@@ -93,7 +96,6 @@ const CreateCourse = () => {
       prevAuthors.filter((author) => author.id !== id),
     )
   }
-  const url = 'http://localhost:4000/courses/add'
 
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -104,8 +106,9 @@ const CreateCourse = () => {
     if (!isTitleValid || !isDescriptionValid || !isDurationValid) {
       return
     }
-    const token = localStorage.getItem('token')
+
     const courseData = {
+      id: new Date().getTime(),
       title,
       description,
       duration: parseInt(duration),
@@ -113,24 +116,30 @@ const CreateCourse = () => {
     }
 
     try {
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `${token}`,
-        },
-        body: JSON.stringify(courseData),
-      })
+      const existingCourses = JSON.parse(localStorage.getItem('courses')) || []
+      existingCourses.push(courseData)
+      localStorage.setItem('courses', JSON.stringify(existingCourses))
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-
-      const data = await response.json()
-      console.log('Course created successfully:', data)
+      console.log('Course saved successfully:', courseData)
+      resetFormFields()
+      navigate('/courses')
     } catch (error) {
-      console.error('Failed to create course:', error)
+      console.error('Failed to save course:', error)
     }
+  }
+
+  const resetFormFields = () => {
+    setTitle('')
+    setDescription('')
+    setDuration('')
+    setAuthors([])
+    setAuthourName('')
+    setIsTitleValid(true)
+    setTitleHelperText('')
+    setIsDescriptionValid(true)
+    setDescriptionHelperText('')
+    setIsDurationValid(true)
+    setDurationHelperText('')
   }
 
   return (

@@ -7,7 +7,7 @@ import { formatDuration } from 'src/helpers/getCourseDuration'
 import './CourseCard.scss'
 import { Link } from 'react-router-dom'
 
-const CourseCard = ({ course, authors }) => {
+const CourseCard = ({ course, authors, onDelete }) => {
   return (
     <Card className='course-card'>
       <CardContent>
@@ -17,7 +17,7 @@ const CourseCard = ({ course, authors }) => {
         <Grid display='flex' gap={4}>
           <Grid item xs={7}>
             <Typography variant='body2' color='text.secondary'>
-              {course.description}{' '}
+              {course.description}
             </Typography>
           </Grid>
           <Grid item xs={5} display='flex' flexDirection='column' gap={3}>
@@ -27,8 +27,8 @@ const CourseCard = ({ course, authors }) => {
                   Authors:
                 </Typography>
                 <Grid display='flex' flexDirection='column'>
-                  <Typography variant='body2' className='course-autors'>
-                    {authors.map((author) => author.name).join(', ')}{' '}
+                  <Typography variant='body2' className='course-authors'>
+                    {authors.map((author) => author.name).join(', ')}
                   </Typography>
                 </Grid>
               </Grid>
@@ -37,7 +37,7 @@ const CourseCard = ({ course, authors }) => {
                   Duration:
                 </Typography>
                 <Grid display='flex' flexDirection='column'>
-                  <Typography variant='body2' className='course-autors'>
+                  <Typography variant='body2' className='course-authors'>
                     {formatDuration(course.duration)}
                   </Typography>
                 </Grid>
@@ -47,7 +47,7 @@ const CourseCard = ({ course, authors }) => {
                   Creation:
                 </Typography>
                 <Grid display='flex' flexDirection='column'>
-                  <Typography variant='body2' className='course-autors'>
+                  <Typography variant='body2' className='course-authors'>
                     {formatDuration(course.duration)}
                   </Typography>
                 </Grid>
@@ -55,23 +55,14 @@ const CourseCard = ({ course, authors }) => {
             </Grid>
             <Grid>
               <Grid display='flex' flexDirection='row' gap={2}>
-                <CustomButton
-                  onClick={undefined}
-                  className={undefined}
-                  variant='contained'
-                >
-                  <Link to={`/courses/${course.id}`}>SHOW COURSE</Link>{' '}
+                <CustomButton variant='contained'>
+                  <Link to={`/courses/${course.id}`}>SHOW COURSE</Link>
                 </CustomButton>
-                <CustomButton
-                  onClick={undefined}
-                  className={undefined}
-                  variant='contained'
-                >
+                <CustomButton onClick={onDelete} variant='contained'>
                   <DeleteIcon />
                 </CustomButton>
                 <CustomButton
-                  onClick={undefined}
-                  className={undefined}
+                  onClick={() => console.log('Edit course', course.id)}
                   variant='contained'
                 >
                   <EditIcon />

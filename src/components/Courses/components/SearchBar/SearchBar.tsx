@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Card, CardContent, Grid, Typography } from '@mui/material'
 import CustomButton from 'src/common/Button/Button'
 import CustomInput from 'src/common/Input/Input'
-import { mockedCoursesList, mockedAuthorsList } from 'src/constants'
+import { mockedAuthorsList } from 'src/constants'
 import { formatDuration } from 'src/helpers/getCourseDuration'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
@@ -28,9 +28,17 @@ const SearchBar = () => {
 
   const handleSearchClick = () => {
     const searchQuery = inputValue.trim().toLowerCase()
-    const foundCourses = mockedCoursesList.filter(
+    if (searchQuery === '') {
+      setSearchResults([])
+      setSearchAttempted(true)
+      setSelectedCourse(null)
+      return
+    }
+
+    const storedCourses = JSON.parse(localStorage.getItem('courses')) || []
+    const foundCourses = storedCourses.filter(
       (course) =>
-        course.id.toLowerCase() === searchQuery ||
+        course.id.toString().toLowerCase() === searchQuery ||
         course.title.toLowerCase().includes(searchQuery),
     )
     setSearchResults(foundCourses)
