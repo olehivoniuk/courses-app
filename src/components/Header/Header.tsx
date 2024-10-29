@@ -40,7 +40,7 @@ const Header = () => {
           alignItems='center'
           gap={2}
         >
-          <Typography>{username}</Typography>
+          <Typography>{username ? username : 'admin'}</Typography>
           <CustomButton variant='contained' onClick={handleLogout}>
             Logout
           </CustomButton>

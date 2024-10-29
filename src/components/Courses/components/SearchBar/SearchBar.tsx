@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { Card, CardContent, Grid, Typography } from '@mui/material'
 import CustomButton from 'src/common/Button/Button'
 import CustomInput from 'src/common/Input/Input'
-import { mockedAuthorsList } from 'src/constants'
 import { formatDuration } from 'src/helpers/getCourseDuration'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
@@ -45,12 +44,6 @@ const SearchBar = () => {
     setSearchResults(foundCourses)
     setSearchAttempted(true)
     setSelectedCourse(null)
-  }
-
-  const getAuthorNames = (authorIds) => {
-    return authorIds
-      .map((id) => mockedAuthorsList.find((author) => author.id === id)?.name)
-      .join(', ')
   }
 
   const handleShowCourse = (course) => {
@@ -111,9 +104,7 @@ const SearchBar = () => {
                     <Grid display='flex' flexDirection='column' gap={3}>
                       <Grid>
                         <Typography variant='body2'>ID: {course.id}</Typography>
-                        <Typography variant='body2'>
-                          Authors: {getAuthorNames(course.authors)}
-                        </Typography>
+                        <Typography variant='body2'>Authors:</Typography>
                         <Typography variant='body2'>
                           Duration: {formatDuration(course.duration)}
                         </Typography>
