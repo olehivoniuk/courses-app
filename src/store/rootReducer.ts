@@ -1,8 +1,8 @@
 import { combineReducers } from '@reduxjs/toolkit'
 import { coursesReducer } from './courses/reducer'
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
   courses: coursesReducer,
 })
 
-export default rootReducer
+export type RootState = ReturnType<typeof rootReducer>

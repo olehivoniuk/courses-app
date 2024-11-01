@@ -1,20 +1,37 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Grid } from '@mui/material'
 import CourseCard from './components/CourseCard/CourseCard'
 import SearchBar from './components/SearchBar/SearchBar'
+import { fetchCourses as fetchCoursesService } from '../../services'
+import { saveCoursesAction } from '../../store/courses/actions' // Update path as necessary
+import { RootState } from '../../store/rootReducer' // Adjust the path as necessary to import RootState
 
 const Courses = () => {
-  const [courses, setCourses] = useState([])
+  const dispatch = useDispatch()
+
+  // Retrieve courses from the Redux store
+  const courses = useSelector((state: RootState) => state.courses)
 
   useEffect(() => {
-    const storedCourses = JSON.parse(localStorage.getItem('courses')) || []
-    setCourses([...storedCourses])
-  }, [])
+    // Fetch courses from the backend on component mount and save them to the Redux store
+    const fetchAndSaveCourses = async () => {
+      try {
+        const fetchedCourses = await fetchCoursesService()
+        console.log(fetchedCourses)
+        dispatch(saveCoursesAction(fetchedCourses.result))
+      } catch (error) {
+        console.error('Failed to fetch courses:', error)
+      }
+    }
 
+    fetchAndSaveCourses()
+  }, [dispatch])
+
+  // Assuming you're managing course deletion through Redux, update this function accordingly
   const handleDeleteCourse = (courseId) => {
-    const updatedCourses = courses.filter((course) => course.id !== courseId)
-    localStorage.setItem('courses', JSON.stringify(updatedCourses))
-    setCourses(updatedCourses)
+    // Dispatch an action to delete the course from the Redux store
+    // dispatch(deleteCourseAction(courseId));
   }
 
   return (
