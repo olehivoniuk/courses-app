@@ -5,6 +5,9 @@ import CustomButton from 'src/common/Button/Button'
 import CustomInput from 'src/common/Input/Input'
 import './Login.scss'
 import { isValidEmail, isValidPassword } from 'src/helpers/isValidEmail'
+import { useDispatch, useSelector } from 'react-redux'
+import { loginSuccess } from 'src/store/user/actions'
+import { RootState } from 'src/store/rootReducer'
 
 const Login = () => {
   const [email, setEmail] = useState('')
@@ -15,12 +18,19 @@ const Login = () => {
   const [passwordHelperText, setPasswordHelperText] = useState('')
 
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  // Use useSelector to access isAuth from the Redux store
+  const isAuth = useSelector((state: RootState) => state.user.isAuth)
+
   useEffect(() => {
-    const token = localStorage.getItem('token')
-    if (token) {
+    if (isAuth) {
+      // If the user is already authenticated, redirect them
       navigate('/courses')
     }
-  }, [navigate])
+    // Removed the localStorage check as isAuth check covers authentication state
+  }, [isAuth, navigate])
+
   const url = 'http://localhost:4000/login'
 
   const handleLoginSubmit = async (event) => {
@@ -47,17 +57,12 @@ const Login = () => {
 
     if (!isValid) return
 
-    const userData = {
-      email,
-      password,
-    }
+    const userData = { email, password }
 
     try {
       const response = await fetch(url, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(userData),
       })
 
@@ -67,12 +72,12 @@ const Login = () => {
 
       const data = await response.json()
       if (data.successful && data.result) {
-        localStorage.setItem('token', data.result)
-        localStorage.setItem('username', data.user.name)
+        dispatch(loginSuccess(data.user.name, data.user.email, data.result))
+        localStorage.setItem('token', data.result) // Keeping this for backward compatibility, remove if all auth is through Redux
 
         setEmail('')
         setPassword('')
-        navigate('/courses')
+        // No need for explicit navigation here; useEffect will handle it when isAuth changes
       } else {
         console.error('Login failed:', data)
       }
@@ -80,13 +85,10 @@ const Login = () => {
       console.error('Failed to login:', error)
     }
   }
-  const onRegisterEmail = (event) => {
-    setEmail(event.target.value)
-  }
 
-  const onRegisterPassword = (event) => {
-    setPassword(event.target.value)
-  }
+  const onRegisterEmail = (event) => setEmail(event.target.value)
+
+  const onRegisterPassword = (event) => setPassword(event.target.value)
 
   return (
     <Grid

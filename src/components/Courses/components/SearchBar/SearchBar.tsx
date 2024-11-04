@@ -46,8 +46,8 @@ const SearchBar = () => {
     setSelectedCourse(null)
   }
 
-  const handleShowCourse = (course) => {
-    setSelectedCourse(course)
+  const handleShowCourse = (courseId) => {
+    navigate(`/courses/${courseId}`)
   }
 
   const handleBack = () => {

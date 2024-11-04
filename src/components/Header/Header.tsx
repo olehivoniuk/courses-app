@@ -4,24 +4,25 @@ import React, { useEffect, useState } from 'react'
 import Logo from './components/Logo/Logo'
 import CustomButton from 'src/common/Button/Button'
 import { useNavigate, useLocation } from 'react-router-dom'
+import { removeUser } from 'src/store/user/actions'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from 'src/store/rootReducer'
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [username, setUsername] = useState('')
   const location = useLocation()
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  const username = useSelector((state: RootState) => state.user.name)
 
   useEffect(() => {
     const token = localStorage.getItem('token')
-    const storedUsername = localStorage.getItem('username')
     setIsLoggedIn(!!token)
-    setUsername(storedUsername || '')
   }, [location])
 
   const handleLogout = () => {
-    localStorage.removeItem('token')
-    localStorage.removeItem('username')
-    setIsLoggedIn(false)
+    dispatch(removeUser())
     navigate('/login')
   }
 
