@@ -3,30 +3,41 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Grid } from '@mui/material'
 import CourseCard from './components/CourseCard/CourseCard'
 import SearchBar from './components/SearchBar/SearchBar'
-import { fetchCourses as fetchCoursesService } from '../../services'
-import { saveCoursesAction } from '../../store/courses/actions' // Update path as necessary
-import { RootState } from '../../store/rootReducer' // Adjust the path as necessary to import RootState
+import {
+  fetchCourses as fetchCoursesService,
+  fetchAuthors as fetchAuthorsService,
+} from '../../services'
+import { saveCoursesAction } from '../../store/courses/actions'
+import { RootState } from '../../store/rootReducer'
+import { saveAuthorsAction } from 'src/store/authors/actions'
 
 const Courses = () => {
   const dispatch = useDispatch()
 
-  // Retrieve courses from the Redux store
   const courses = useSelector((state: RootState) => state.courses)
+  const authors = useSelector((state: RootState) => state.authors)
 
   useEffect(() => {
-    // Fetch courses from the backend on component mount and save them to the Redux store
-    const fetchAndSaveCourses = async () => {
+    async function fetchAndStoreData() {
       try {
         const fetchedCourses = await fetchCoursesService()
-        console.log(fetchedCourses)
         dispatch(saveCoursesAction(fetchedCourses.result))
+        const fetchedAuthors = await fetchAuthorsService()
+        dispatch(saveAuthorsAction(fetchedAuthors.result))
       } catch (error) {
-        console.error('Failed to fetch courses:', error)
+        console.error('Failed to load data:', error)
       }
     }
 
-    fetchAndSaveCourses()
+    fetchAndStoreData()
   }, [dispatch])
+
+  const coursesWithAuthorNames = courses.map((course) => ({
+    ...course,
+    authors: course.authors.map(
+      (authorId) => authors.find((author) => author.id === authorId)?.name,
+    ),
+  }))
 
   // Assuming you're managing course deletion through Redux, update this function accordingly
   const handleDeleteCourse = (courseId) => {
@@ -53,11 +64,11 @@ const Courses = () => {
         justifyContent='center'
         alignItems='center'
       >
-        {courses.map((course) => (
+        {coursesWithAuthorNames.map((course) => (
           <Grid item xs={12} sm={6} md={8} key={course.id}>
             <CourseCard
               course={course}
-              authors={course.authors.map((name) => ({ name }))}
+              authors={course.authors} // Passing an array of author names
               onDelete={() => handleDeleteCourse(course.id)}
             />
           </Grid>

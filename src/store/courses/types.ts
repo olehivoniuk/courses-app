@@ -13,22 +13,22 @@ export type CourseType = {
   authors: string[]
 }
 
-interface SaveCoursesAction {
+export type SaveCoursesAction = {
   type: CoursesActionTypes.SAVE_COURSES
   payload: CourseType[]
 }
 
-interface AddCourseAction {
+export type AddNewCourseAction = {
   type: CoursesActionTypes.ADD_COURSE
   payload: CourseType
 }
 
-interface DeleteCourseAction {
+export type DeleteCourseAction = {
   type: CoursesActionTypes.DELETE_COURSE
   payload: string
 }
 
 export type CoursesAction =
   | SaveCoursesAction
-  | AddCourseAction
+  | AddNewCourseAction
   | DeleteCourseAction

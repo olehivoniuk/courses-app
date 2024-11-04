@@ -1,9 +1,10 @@
-import { CoursesActionTypes, CourseType } from './types'
-
-type AddNewCourseAction = {
-  type: CoursesActionTypes.ADD_COURSE
-  payload: CourseType
-}
+import {
+  AddNewCourseAction,
+  CoursesActionTypes,
+  CourseType,
+  DeleteCourseAction,
+  SaveCoursesAction,
+} from './types'
 
 export const addNewCourseAction = (
   courseData: CourseType,
@@ -12,22 +13,12 @@ export const addNewCourseAction = (
   payload: courseData,
 })
 
-type SaveCoursesAction = {
-  type: CoursesActionTypes.SAVE_COURSES
-  payload: CourseType[]
-}
-
 export const saveCoursesAction = (
   courses: CourseType[],
 ): SaveCoursesAction => ({
   type: CoursesActionTypes.SAVE_COURSES,
   payload: courses,
 })
-
-type DeleteCourseAction = {
-  type: CoursesActionTypes.DELETE_COURSE
-  payload: string
-}
 
 export const deleteCourseAction = (courseId: string): DeleteCourseAction => ({
   type: CoursesActionTypes.DELETE_COURSE,

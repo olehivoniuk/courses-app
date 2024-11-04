@@ -29,9 +29,7 @@ const CourseCard = ({ course, authors, onDelete }) => {
                 </Typography>
                 <Grid display='flex' flexDirection='column'>
                   <Typography variant='body2' className='course-authors'>
-                    {authors?.length > 0
-                      ? authors.map((author) => author.name).join(', ')
-                      : 'No authors'}
+                    {authors?.length > 0 ? authors.join(', ') : 'No authors'}
                   </Typography>
                 </Grid>
               </Grid>
@@ -51,7 +49,7 @@ const CourseCard = ({ course, authors, onDelete }) => {
                 </Typography>
                 <Grid display='flex' flexDirection='column'>
                   <Typography variant='body2' className='course-authors'>
-                    {formatDate(course.id)}
+                    {formatDate(course.creationDate)}
                   </Typography>
                 </Grid>
               </Grid>
