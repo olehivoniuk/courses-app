@@ -2,6 +2,7 @@ export const enum CoursesActionTypes {
   SAVE_COURSES = 'SAVE_COURSES',
   ADD_COURSE = 'ADD_COURSE',
   DELETE_COURSE = 'DELETE_COURSE',
+  SAVE_COURSE = 'SAVE_COURSE',
 }
 
 export type CourseType = {
@@ -18,6 +19,11 @@ export type SaveCoursesAction = {
   payload: CourseType[]
 }
 
+export type SaveCourseAction = {
+  type: CoursesActionTypes.SAVE_COURSE
+  payload: CourseType
+}
+
 export type AddNewCourseAction = {
   type: CoursesActionTypes.ADD_COURSE
   payload: CourseType
@@ -32,3 +38,4 @@ export type CoursesAction =
   | SaveCoursesAction
   | AddNewCourseAction
   | DeleteCourseAction
+  | SaveCourseAction

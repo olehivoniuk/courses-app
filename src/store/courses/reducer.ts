@@ -13,6 +13,15 @@ export function coursesReducer(
       return [...state, action.payload]
     case CoursesActionTypes.DELETE_COURSE:
       return state.filter((course) => course.id !== action.payload)
+    case CoursesActionTypes.SAVE_COURSE:
+      const index = state.findIndex((course) => course.id === action.payload.id)
+      if (index !== -1) {
+        return state.map((course) =>
+          course.id === action.payload.id ? action.payload : course,
+        )
+      } else {
+        return [...state, action.payload]
+      }
     default:
       return state
   }

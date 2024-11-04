@@ -148,9 +148,9 @@ const SearchBar = () => {
         ) : searchAttempted ? (
           <EmptyCourseList />
         ) : null}
-        {selectedCourse && (
+        {/* {selectedCourse && (
           <CourseInfo course={selectedCourse} onBack={handleBack} />
-        )}
+        )} */}
       </Grid>
     </Grid>
   )

@@ -21,3 +21,15 @@ export const fetchAuthors = async () => {
     throw error
   }
 }
+
+export const fetchCourseById = async (courseId: string) => {
+  try {
+    const response = await fetch(`http://localhost:4000/courses/${courseId}`)
+    if (!response.ok) throw new Error('Network response was not ok')
+    const course = await response.json()
+    return course
+  } catch (error) {
+    console.error('Error fetching the course:', error)
+    throw error
+  }
+}
