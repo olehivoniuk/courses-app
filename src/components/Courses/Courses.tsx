@@ -7,7 +7,10 @@ import {
   fetchCourses as fetchCoursesService,
   fetchAuthors as fetchAuthorsService,
 } from '../../services'
-import { saveCoursesAction } from '../../store/courses/actions'
+import {
+  deleteCourseAction,
+  saveCoursesAction,
+} from '../../store/courses/actions'
 import { RootState } from '../../store/rootReducer'
 import { saveAuthorsAction } from 'src/store/authors/actions'
 
@@ -39,10 +42,9 @@ const Courses = () => {
     ),
   }))
 
-  // Assuming you're managing course deletion through Redux, update this function accordingly
   const handleDeleteCourse = (courseId) => {
-    // Dispatch an action to delete the course from the Redux store
-    // dispatch(deleteCourseAction(courseId));
+    // Dispatched an action to delete the course from the Redux store
+    dispatch(deleteCourseAction(courseId))
   }
 
   return (
