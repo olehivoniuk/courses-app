@@ -1,38 +1,20 @@
 import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import { Grid } from '@mui/material'
 import CourseCard from './components/CourseCard/CourseCard'
 import SearchBar from './components/SearchBar/SearchBar'
-import {
-  fetchCourses as fetchCoursesService,
-  fetchAuthors as fetchAuthorsService,
-} from '../../services'
-import {
-  deleteCourseAction,
-  saveCoursesAction,
-} from '../../store/courses/actions'
-import { RootState } from '../../store/rootReducer'
-import { saveAuthorsAction } from 'src/store/authors/actions'
+import { fetchAuthors } from 'src/store/authors/authorsSlice'
+import { deleteCourse, fetchCourses } from 'src/store/courses/coursesSlice'
+import { useAppDispatch, useAppSelector } from 'src/hooks/useAppDispatch'
 
 const Courses = () => {
-  const dispatch = useDispatch()
-
-  const courses = useSelector((state: RootState) => state.courses)
-  const authors = useSelector((state: RootState) => state.authors)
+  const dispatch = useAppDispatch()
+  const courses = useAppSelector((state) => state.courses)
+  const authors = useAppSelector((state) => state.authors)
+  // Now, using useAppSelector instead of useSelector directly
 
   useEffect(() => {
-    async function fetchAndStoreData() {
-      try {
-        const fetchedCourses = await fetchCoursesService()
-        dispatch(saveCoursesAction(fetchedCourses.result))
-        const fetchedAuthors = await fetchAuthorsService()
-        dispatch(saveAuthorsAction(fetchedAuthors.result))
-      } catch (error) {
-        console.error('Failed to load data:', error)
-      }
-    }
-
-    fetchAndStoreData()
+    dispatch(fetchAuthors())
+    dispatch(fetchCourses())
   }, [dispatch])
 
   const coursesWithAuthorNames = courses.map((course) => ({
@@ -42,9 +24,8 @@ const Courses = () => {
     ),
   }))
 
-  const handleDeleteCourse = (courseId) => {
-    // Dispatched an action to delete the course from the Redux store
-    dispatch(deleteCourseAction(courseId))
+  const handleDeleteCourse = (courseId: string) => {
+    dispatch(deleteCourse(courseId))
   }
 
   return (
