@@ -7,7 +7,7 @@ import { Grid } from '@mui/material'
 import Registration from './components/Registration/Registration'
 import Login from './components/Login/Login'
 import { Routes, Route, Navigate } from 'react-router-dom'
-import CreateCourse from './components/CreateCourse/CreateCourse'
+import CourseForm from './components/CourseForm/CourseForm'
 
 function App() {
   return (
@@ -18,7 +18,7 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/registration' element={<Registration />} />
         <Route path='/courses/:courseId' element={<CourseInfo />} />
-        <Route path='/courses/add' element={<CreateCourse />} />
+        <Route path='/courses/add' element={<CourseForm />} />
         <Route path='*' element={<Navigate to='/login' />} />
       </Routes>
     </Grid>

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
-import './CreateCourse.scss'
+import './CourseForm.scss'
 import { Grid, TextField, Typography } from '@mui/material'
 import CustomInput from 'src/common/Input/Input'
 import CustomButton from 'src/common/Button/Button'
@@ -8,7 +8,7 @@ import { formatDuration } from 'src/helpers/getCourseDuration'
 import AuthorItem from './components/AuthorItem/AuthorItem'
 import { useNavigate } from 'react-router-dom'
 
-const CreateCourse = () => {
+const CourseForm = () => {
   const [title, setTitle] = useState('')
   const [isTitleValid, setIsTitleValid] = useState(true)
   const [titleHelperText, setTitleHelperText] = useState('')
@@ -254,4 +254,4 @@ const CreateCourse = () => {
   )
 }
 
-export default CreateCourse
+export default CourseForm
