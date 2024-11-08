@@ -1,16 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { fetchCourseById, fetchCourses } from './thunk'
 import { CourseType } from './types'
-import { createAsyncThunk } from '@reduxjs/toolkit'
-
-export const fetchCourses = createAsyncThunk(
-  'courses/fetchCourses',
-  async () => {
-    const response = await fetch('http://localhost:4000/courses/all')
-    if (!response.ok) throw new Error('Network response was not ok')
-    const courses = await response.json()
-    return courses
-  },
-)
 
 const initialState: CourseType[] = []
 
@@ -23,9 +13,13 @@ const coursesSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchCourses.fulfilled, (state, action) => {
-      return action.payload.result
-    })
+    builder
+      .addCase(fetchCourses.fulfilled, (state, action) => {
+        return action.payload.result
+      })
+      .addCase(fetchCourseById.fulfilled, (state, action) => {
+        state.push(action.payload.result)
+      })
   },
 })
 export const { deleteCourse } = coursesSlice.actions

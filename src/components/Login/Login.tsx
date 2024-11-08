@@ -5,9 +5,8 @@ import CustomButton from 'src/common/Button/Button'
 import CustomInput from 'src/common/Input/Input'
 import './Login.scss'
 import { isValidEmail, isValidPassword } from 'src/helpers/isValidEmail'
-import { useDispatch, useSelector } from 'react-redux'
-import { loginSuccess } from 'src/store/user/actions'
-import { RootState } from 'src/store/rootReducer'
+import { useAppDispatch, useAppSelector } from 'src/hooks/useAppDispatch'
+import { loginUser } from 'src/store/user/thunk'
 
 const Login = () => {
   const [email, setEmail] = useState('')
@@ -18,29 +17,23 @@ const Login = () => {
   const [passwordHelperText, setPasswordHelperText] = useState('')
 
   const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
-  // Use useSelector to access isAuth from the Redux store
-  const isAuth = useSelector((state: RootState) => state.user.isAuth)
+  const isAuth = useAppSelector((state) => state.user.isAuth)
 
   useEffect(() => {
     if (isAuth) {
-      // If the user is already authenticated, redirect them
       navigate('/courses')
     }
-    // Removed the localStorage check as isAuth check covers authentication state
   }, [isAuth, navigate])
 
-  const url = 'http://localhost:4000/login'
-
-  const handleLoginSubmit = async (event) => {
+  const handleLoginSubmit = (event) => {
     event.preventDefault()
-    let isValid = true
 
     if (!isValidEmail(email)) {
       setIsEmailValid(false)
       setEmailHelperText('Please enter a valid email address')
-      isValid = false
+      return
     } else {
       setIsEmailValid(true)
       setEmailHelperText('')
@@ -49,46 +42,14 @@ const Login = () => {
     if (!isValidPassword(password)) {
       setIsPasswordValid(false)
       setPasswordHelperText('Password is required, at least 8 symbols')
-      isValid = false
+      return
     } else {
       setIsPasswordValid(true)
       setPasswordHelperText('')
     }
 
-    if (!isValid) return
-
-    const userData = { email, password }
-
-    try {
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(userData),
-      })
-
-      if (!response.ok) {
-        throw new Error(`HTTP error: ${response.status}`)
-      }
-
-      const data = await response.json()
-      if (data.successful && data.result) {
-        dispatch(loginSuccess(data.user.name, data.user.email, data.result))
-        localStorage.setItem('token', data.result) // Keeping this for backward compatibility, remove if all auth is through Redux
-
-        setEmail('')
-        setPassword('')
-        // No need for explicit navigation here; useEffect will handle it when isAuth changes
-      } else {
-        console.error('Login failed:', data)
-      }
-    } catch (error) {
-      console.error('Failed to login:', error)
-    }
+    dispatch(loginUser({ email, password }))
   }
-
-  const onRegisterEmail = (event) => setEmail(event.target.value)
-
-  const onRegisterPassword = (event) => setPassword(event.target.value)
 
   return (
     <Grid
@@ -108,25 +69,19 @@ const Login = () => {
           gap={4}
         >
           <CustomInput
-            placeholder='Input text'
+            label='Email'
             variant='outlined'
             value={email}
-            onChange={onRegisterEmail}
-            label='Email'
-            className={`email-input ${!isEmailValid ? 'input-error' : ''}`}
-            autoComplete='new-email'
+            onChange={(event) => setEmail(event.target.value)}
             error={!isEmailValid}
             helperText={emailHelperText}
           />
           <CustomInput
-            placeholder='Input text'
-            variant='outlined'
-            value={password}
-            onChange={onRegisterPassword}
             label='Password'
+            variant='outlined'
             type='password'
-            className={`email-input ${!isPasswordValid ? 'input-error' : ''}`}
-            autoComplete='new-password'
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
             error={!isPasswordValid}
             helperText={passwordHelperText}
           />

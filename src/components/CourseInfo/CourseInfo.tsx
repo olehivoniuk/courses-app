@@ -3,11 +3,9 @@ import { Card, CardContent, Typography, Grid } from '@mui/material'
 import CustomButton from 'src/common/Button/Button'
 import { useParams, useNavigate } from 'react-router-dom'
 import { formatDate } from 'src/helpers/formatCreationDate'
-import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from 'src/store/rootReducer'
 import { formatDuration } from 'src/helpers/getCourseDuration'
-import { saveCourseAction } from 'src/store/courses/actions'
-import { fetchCourseById } from 'src/services'
+import { useAppDispatch, useAppSelector } from 'src/hooks/useAppDispatch'
+import { fetchCourseById } from 'src/store/courses/thunk'
 
 interface CourseInfoProps {
   onBack?: () => void
@@ -16,25 +14,16 @@ interface CourseInfoProps {
 const CourseInfo: React.FC<CourseInfoProps> = ({ onBack }) => {
   const { courseId } = useParams()
   const navigate = useNavigate()
-  const dispatch = useDispatch()
-  const courses = useSelector((state: RootState) => state.courses)
-  const authors = useSelector((state: RootState) => state.authors)
+  const dispatch = useAppDispatch()
+  const courses = useAppSelector((state) => state.courses)
+  const authors = useAppSelector((state) => state.authors)
 
   const course = courses.find((c) => c.id === courseId)
 
   useEffect(() => {
-    const fetchAndDispatchCourse = async () => {
-      if (!course && courseId) {
-        try {
-          const fetchedCourse = await fetchCourseById(courseId)
-          dispatch(saveCourseAction(fetchedCourse.result))
-        } catch (error) {
-          console.error('Failed to load course data:', error)
-        }
-      }
+    if (!course && courseId) {
+      dispatch(fetchCourseById(courseId))
     }
-
-    fetchAndDispatchCourse()
   }, [courseId, course, dispatch])
 
   const defaultBack = () => {
@@ -53,7 +42,15 @@ const CourseInfo: React.FC<CourseInfoProps> = ({ onBack }) => {
 
   return (
     <Grid container spacing={2} justifyContent='center'>
-      <Grid container spacing={2} justifyContent='center' md={9} lg={8}>
+      <Grid
+        item
+        container
+        spacing={2}
+        justifyContent='center'
+        md={9}
+        lg={8}
+        sm={6}
+      >
         <Grid item xs={12} gap={4} display='flex' flexDirection='column'>
           <Typography variant='h4'>{course.title}</Typography>
           <Card className='course-card'>

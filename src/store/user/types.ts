@@ -3,9 +3,10 @@ export enum UserActionTypes {
   REMOVE_USER = 'REMOVE_USER',
 }
 
-export type UserState = {
+export type UserType = {
   isAuth: boolean
   name: string
   email: string
   token: string
+  role: string
 }

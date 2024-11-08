@@ -4,9 +4,9 @@ import React, { useEffect, useState } from 'react'
 import Logo from './components/Logo/Logo'
 import CustomButton from 'src/common/Button/Button'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { removeUser } from 'src/store/user/actions'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'src/store/rootReducer'
+import { logout } from 'src/store/user/userSlice'
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -22,7 +22,7 @@ const Header = () => {
   }, [location])
 
   const handleLogout = () => {
-    dispatch(removeUser())
+    dispatch(logout())
     navigate('/login')
   }
 
