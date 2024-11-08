@@ -89,7 +89,7 @@ const SearchBar = () => {
       >
         {searchResults.length > 0 ? (
           searchResults.map((course) => (
-            <Card key={course.id}>
+            <Card key={course.title}>
               <CardContent>
                 <Typography variant='h5' component='div'>
                   {course.title}
