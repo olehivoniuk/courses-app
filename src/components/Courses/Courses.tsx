@@ -55,7 +55,7 @@ const Courses = () => {
         alignItems='center'
       >
         {coursesWithAuthorNames.map((course) => (
-          <Grid item xs={12} sm={6} md={8} key={course.title}>
+          <Grid item xs={12} sm={6} md={8} key={course.id}>
             <CourseCard
               course={course}
               authors={course.authors}

@@ -5,7 +5,6 @@ import CustomInput from 'src/common/Input/Input'
 import { formatDuration } from 'src/helpers/getCourseDuration'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
-import CourseInfo from 'src/components/CourseInfo/CourseInfo'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import EmptyCourseList from 'src/components/EmptyCourseList/EmptyCourseList'
@@ -89,7 +88,7 @@ const SearchBar = () => {
       >
         {searchResults.length > 0 ? (
           searchResults.map((course) => (
-            <Card key={course.title}>
+            <Card key={course.id}>
               <CardContent>
                 <Typography variant='h5' component='div'>
                   {course.title}
