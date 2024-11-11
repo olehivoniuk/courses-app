@@ -60,6 +60,7 @@ const Courses = () => {
               course={course}
               authors={course.authors}
               onDelete={() => handleDeleteCourse(course.id)}
+              userRole={user.role}
             />
           </Grid>
         ))}

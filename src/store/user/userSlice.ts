@@ -37,9 +37,7 @@ const userSlice = createSlice({
         }
       })
       .addCase(fetchUser.rejected, (state, action) => {
-        // Handle the rejected case
         console.log('Fetch user failed: ', action.payload)
-        // Reset the state or update it to reflect that fetching user failed
         Object.assign(state, initialState)
       })
       .addCase(loginUser.fulfilled, (state, action) => {
@@ -49,8 +47,6 @@ const userSlice = createSlice({
         // Extracting "user" object directly from "action.payload" based on your response example.
         const { email, name } = action.payload.user
         localStorage.setItem('token', token)
-
-        // Updating state
         state.isAuth = true
         state.name = name
         state.email = email

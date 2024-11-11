@@ -8,7 +8,7 @@ import './CourseCard.scss'
 import { Link } from 'react-router-dom'
 import { formatDate } from 'src/helpers/formatCreationDate'
 
-const CourseCard = ({ course, authors, onDelete }) => {
+const CourseCard = ({ course, authors, onDelete, userRole }) => {
   return (
     <Card className='course-card'>
       <CardContent>
@@ -59,15 +59,19 @@ const CourseCard = ({ course, authors, onDelete }) => {
                 <CustomButton variant='contained'>
                   <Link to={`/courses/${course.id}`}>SHOW COURSE</Link>
                 </CustomButton>
-                <CustomButton onClick={onDelete} variant='contained'>
-                  <DeleteIcon />
-                </CustomButton>
-                <CustomButton
-                  onClick={() => console.log('Edit course', course.id)}
-                  variant='contained'
-                >
-                  <EditIcon />
-                </CustomButton>
+                {userRole === 'admin' && (
+                  <>
+                    <CustomButton onClick={onDelete} variant='contained'>
+                      <DeleteIcon />
+                    </CustomButton>
+                    <CustomButton
+                      onClick={() => console.log('Edit course', course.id)}
+                      variant='contained'
+                    >
+                      <EditIcon />
+                    </CustomButton>
+                  </>
+                )}
               </Grid>
             </Grid>
           </Grid>
