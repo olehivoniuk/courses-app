@@ -9,3 +9,29 @@ export const fetchAuthors = createAsyncThunk(
     return authors
   },
 )
+
+export const fetchPostAuthors = createAsyncThunk(
+  'authors/fetchPostAuthors',
+  async (authorName: string, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem('token')
+      if (!token) {
+        return rejectWithValue('No token found')
+      }
+      const response = await fetch(`http://localhost:4000/authors/add`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token,
+        },
+        body: JSON.stringify({ name: authorName }),
+      })
+      if (!response.ok) throw new Error('Network response was not ok')
+      const author = await response.json()
+      return author.result
+    } catch (error) {
+      console.error('Error adding the author:', error)
+      return rejectWithValue(error.message)
+    }
+  },
+)

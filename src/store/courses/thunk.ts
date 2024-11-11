@@ -1,4 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
+import { CourseData, CourseResponse, CourseType } from './types'
 
 export const fetchCourses = createAsyncThunk(
   'courses/fetchCourses',
@@ -50,3 +51,34 @@ export const fetchDeleteCourseById = createAsyncThunk(
     }
   },
 )
+
+export const fetchCoursesAdd = createAsyncThunk<
+  CourseType,
+  CourseData,
+  { rejectValue: string }
+>('courses/fetchCoursesAdd', async (courseData, { rejectWithValue }) => {
+  const token = localStorage.getItem('token')
+  if (!token) {
+    return rejectWithValue('No token found')
+  }
+  try {
+    const response = await fetch(`http://localhost:4000/courses/add`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token,
+      },
+      body: JSON.stringify(courseData),
+    })
+    if (!response.ok) throw new Error('Network response was not ok')
+    const responseData: CourseResponse = await response.json()
+    if (responseData.successful) {
+      return responseData.result
+    } else {
+      throw new Error('Failed to get a successful response')
+    }
+  } catch (error) {
+    console.error('Error adding the course:', error)
+    return rejectWithValue(error.message as string)
+  }
+})

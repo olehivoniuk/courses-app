@@ -7,6 +7,9 @@ import CustomButton from 'src/common/Button/Button'
 import { formatDuration } from 'src/helpers/getCourseDuration'
 import AuthorItem from './components/AuthorItem/AuthorItem'
 import { useNavigate } from 'react-router-dom'
+import { fetchCoursesAdd } from 'src/store/courses/thunk'
+import { useAppDispatch, useAppSelector } from 'src/hooks/useAppDispatch'
+import { fetchPostAuthors } from 'src/store/authors/thunk'
 
 const CourseForm = () => {
   const [title, setTitle] = useState('')
@@ -20,11 +23,14 @@ const CourseForm = () => {
   const [duration, setDuration] = useState('')
   const [isDurationValid, setIsDurationValid] = useState(true)
   const [durationHelperText, setDurationHelperText] = useState('')
+  const [newlyCreatedAuthors, setNewlyCreatedAuthors] = useState([])
 
   const [authorName, setAuthourName] = useState('')
-  const [authors, setAuthors] = useState([])
 
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+
+  const authors = useAppSelector((state) => state.authors)
 
   const validateTitle = (title) => {
     if (!title.trim()) {
@@ -82,23 +88,26 @@ const CourseForm = () => {
     setAuthourName(e.target.value)
   }
 
-  const addAuthorName = () => {
-    const newAuthor = {
-      id: new Date().getTime(),
-      name: authorName,
+  const addAuthorName = async (event) => {
+    event.preventDefault()
+    if (authorName.trim()) {
+      try {
+        const newAuthor = await dispatch(fetchPostAuthors(authorName)).unwrap()
+        setNewlyCreatedAuthors((prev) => [...prev, newAuthor])
+        setAuthourName('')
+      } catch (error) {
+        console.error('Error adding the author:', error)
+      }
+    } else {
+      console.log("Author name can't be empty.")
     }
-    setAuthors((prevAuthors) => [...prevAuthors, newAuthor])
-    setAuthourName('')
   }
 
-  const removeAuthor = (id) => {
-    setAuthors((prevAuthors) =>
-      prevAuthors.filter((author) => author.id !== id),
-    )
-  }
+  const removeAuthor = (id) => {}
 
   const handleSubmit = async (event) => {
     event.preventDefault()
+
     const isTitleValid = validateTitle(title)
     const isDescriptionValid = validateDescription(description)
     const isDurationValid = validateDuration(duration)
@@ -108,7 +117,6 @@ const CourseForm = () => {
     }
 
     const courseData = {
-      id: new Date().getTime(),
       title,
       description,
       duration: parseInt(duration),
@@ -116,14 +124,16 @@ const CourseForm = () => {
     }
 
     try {
-      const existingCourses = JSON.parse(localStorage.getItem('courses')) || []
-      existingCourses.push(courseData)
-      localStorage.setItem('courses', JSON.stringify(existingCourses))
-
-      console.log('Course saved successfully:', courseData)
-      resetFormFields()
-      navigate('/courses')
+      const response = await dispatch(fetchCoursesAdd(courseData))
+      if (fetchCoursesAdd.fulfilled.match(response)) {
+        console.log('Course saved successfully:', response.payload)
+        resetFormFields()
+        navigate('/courses')
+      } else {
+        throw new Error('Failed to save course')
+      }
     } catch (error) {
+      // Error handling if the async operation or other logic fails.
       console.error('Failed to save course:', error)
     }
   }
@@ -132,7 +142,6 @@ const CourseForm = () => {
     setTitle('')
     setDescription('')
     setDuration('')
-    setAuthors([])
     setAuthourName('')
     setIsTitleValid(true)
     setTitleHelperText('')
@@ -222,8 +231,8 @@ const CourseForm = () => {
               </Grid>
               <Grid>
                 <Typography variant='h6'>Course Authors</Typography>
-                {authors.length > 0 ? (
-                  authors.map((author, index) => (
+                {newlyCreatedAuthors.length > 0 ? (
+                  newlyCreatedAuthors.map((author, index) => (
                     <Typography key={index} variant='body1'>
                       {author.name}
                     </Typography>
@@ -235,7 +244,10 @@ const CourseForm = () => {
             </Grid>
             <Typography variant='h6'>Authors list</Typography>
 
-            <AuthorItem authors={authors} removeAuthor={removeAuthor} />
+            <AuthorItem
+              authors={newlyCreatedAuthors}
+              removeAuthor={removeAuthor}
+            />
           </Grid>
           <Grid
             display='flex'

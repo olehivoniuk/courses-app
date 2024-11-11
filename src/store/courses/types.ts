@@ -1,10 +1,3 @@
-// export const enum CoursesActionTypes {
-//   SAVE_COURSES = 'SAVE_COURSES',
-//   ADD_COURSE = 'ADD_COURSE',
-//   DELETE_COURSE = 'DELETE_COURSE',
-//   SAVE_COURSE = 'SAVE_COURSE',
-// }
-
 export type CourseType = {
   id: string
   title: string
@@ -14,28 +7,16 @@ export type CourseType = {
   authors: string[]
 }
 
-// export type SaveCoursesAction = {
-//   type: CoursesActionTypes.SAVE_COURSES
-//   payload: CourseType[]
-// }
+export interface CourseData {
+  title: string
+  description: string
+  duration: number
+  authors: string[]
+}
 
-// export type SaveCourseAction = {
-//   type: CoursesActionTypes.SAVE_COURSE
-//   payload: CourseType
-// }
+interface ApiResponse<T> {
+  successful: boolean
+  result: T
+}
 
-// export type AddNewCourseAction = {
-//   type: CoursesActionTypes.ADD_COURSE
-//   payload: CourseType
-// }
-
-// export type DeleteCourseAction = {
-//   type: CoursesActionTypes.DELETE_COURSE
-//   payload: string
-// }
-
-// export type CoursesAction =
-//   | SaveCoursesAction
-//   | AddNewCourseAction
-//   | DeleteCourseAction
-//   | SaveCourseAction
+export interface CourseResponse extends ApiResponse<CourseType> {}

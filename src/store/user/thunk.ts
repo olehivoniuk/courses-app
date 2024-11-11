@@ -34,7 +34,6 @@ export const loginUser = createAsyncThunk(
       })
       const data = await response.json()
       if (response.ok) {
-        //the response includes the token and user data
         return data
       } else {
         return rejectWithValue(data)

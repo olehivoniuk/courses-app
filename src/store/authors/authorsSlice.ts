@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { fetchAuthors } from './thunk'
+import { fetchAuthors, fetchPostAuthors } from './thunk'
 import { AuthorType } from './types'
 
 const initialState: AuthorType[] = []
@@ -9,9 +9,13 @@ const authorsSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(fetchAuthors.fulfilled, (state, action) => {
-      return action.payload.result
-    })
+    builder
+      .addCase(fetchAuthors.fulfilled, (state, action) => {
+        return action.payload.result
+      })
+      .addCase(fetchPostAuthors.fulfilled, (state, action) => {
+        state.push(action.payload)
+      })
   },
 })
 

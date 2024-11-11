@@ -1,5 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { fetchCourseById, fetchCourses, fetchDeleteCourseById } from './thunk'
+import {
+  fetchCourseById,
+  fetchCourses,
+  fetchCoursesAdd,
+  fetchDeleteCourseById,
+} from './thunk'
 import { CourseType } from './types'
 
 const initialState: CourseType[] = []
@@ -17,7 +22,10 @@ const coursesSlice = createSlice({
         state.push(action.payload.result)
       })
       .addCase(fetchDeleteCourseById.fulfilled, (state, action) => {
-        return state.filter((course) => course.id !== action.payload) // Use action.payload directly as it is the courseId
+        return state.filter((course) => course.id !== action.payload)
+      })
+      .addCase(fetchCoursesAdd.fulfilled, (state, action) => {
+        state.push(action.payload)
       })
   },
 })
