@@ -22,7 +22,7 @@ function App() {
         <Route
           path='/courses/add'
           element={
-            <PrivateRoute>
+            <PrivateRoute roleRequired='admin'>
               <CourseForm />
             </PrivateRoute>
           }

@@ -4,8 +4,7 @@ import CourseCard from './components/CourseCard/CourseCard'
 import SearchBar from './components/SearchBar/SearchBar'
 import { useAppDispatch, useAppSelector } from 'src/hooks/useAppDispatch'
 import { fetchUser } from 'src/store/user/thunk'
-import { deleteCourse } from 'src/store/courses/coursesSlice'
-import { fetchCourses } from 'src/store/courses/thunk'
+import { fetchCourses, fetchDeleteCourseById } from 'src/store/courses/thunk'
 import { fetchAuthors } from 'src/store/authors/thunk'
 
 const Courses = () => {
@@ -32,7 +31,7 @@ const Courses = () => {
   }))
 
   const handleDeleteCourse = (courseId: string) => {
-    dispatch(deleteCourse(courseId))
+    dispatch(fetchDeleteCourseById(courseId))
   }
 
   return (

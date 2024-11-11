@@ -24,3 +24,29 @@ export const fetchCourseById = createAsyncThunk(
     }
   },
 )
+
+export const fetchDeleteCourseById = createAsyncThunk(
+  'courses/fetchDeleteCourseById',
+  async (courseId: string, { rejectWithValue }) => {
+    const token = localStorage.getItem('token')
+    if (!token) {
+      return rejectWithValue('No token found')
+    }
+    try {
+      const response = await fetch(
+        `http://localhost:4000/courses/${courseId}`,
+        {
+          headers: {
+            Authorization: token,
+          },
+          method: 'DELETE',
+        },
+      )
+      if (!response.ok) throw new Error('Network response was not ok')
+      return courseId
+    } catch (error) {
+      console.error('Error deleting the course:', error)
+      return rejectWithValue(error.message)
+    }
+  },
+)
