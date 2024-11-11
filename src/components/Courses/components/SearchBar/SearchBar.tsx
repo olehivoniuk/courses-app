@@ -8,12 +8,14 @@ import EditIcon from '@mui/icons-material/Edit'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import EmptyCourseList from 'src/components/EmptyCourseList/EmptyCourseList'
+import { useAppSelector } from 'src/hooks/useAppDispatch'
 
 const SearchBar = () => {
   const [inputValue, setInputValue] = useState('')
   const [searchResults, setSearchResults] = useState([])
   const [searchAttempted, setSearchAttempted] = useState(false)
-  const [selectedCourse, setSelectedCourse] = useState(null)
+
+  const user = useAppSelector((state) => state.user)
 
   const navigate = useNavigate()
 
@@ -30,7 +32,7 @@ const SearchBar = () => {
     if (searchQuery === '') {
       setSearchResults([])
       setSearchAttempted(true)
-      setSelectedCourse(null)
+
       return
     }
 
@@ -42,15 +44,10 @@ const SearchBar = () => {
     )
     setSearchResults(foundCourses)
     setSearchAttempted(true)
-    setSelectedCourse(null)
   }
 
   const handleShowCourse = (courseId) => {
     navigate(`/courses/${courseId}`)
-  }
-
-  const handleBack = () => {
-    setSelectedCourse(null)
   }
 
   return (
@@ -67,15 +64,17 @@ const SearchBar = () => {
             Search
           </CustomButton>
         </Grid>
-        <Grid>
-          <CustomButton
-            onClick={handleAddNewCourse}
-            className='add-course-button'
-            variant='contained'
-          >
-            Add new course
-          </CustomButton>
-        </Grid>
+        {user.role === 'admin' && (
+          <Grid>
+            <CustomButton
+              onClick={handleAddNewCourse}
+              className='add-course-button'
+              variant='contained'
+            >
+              Add new course
+            </CustomButton>
+          </Grid>
+        )}
       </Grid>
 
       <Grid
@@ -147,9 +146,6 @@ const SearchBar = () => {
         ) : searchAttempted ? (
           <EmptyCourseList />
         ) : null}
-        {/* {selectedCourse && (
-          <CourseInfo course={selectedCourse} onBack={handleBack} />
-        )} */}
       </Grid>
     </Grid>
   )

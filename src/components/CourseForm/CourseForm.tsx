@@ -8,7 +8,7 @@ import { formatDuration } from 'src/helpers/getCourseDuration'
 import AuthorItem from './components/AuthorItem/AuthorItem'
 import { useNavigate } from 'react-router-dom'
 import { fetchCoursesAdd } from 'src/store/courses/thunk'
-import { useAppDispatch, useAppSelector } from 'src/hooks/useAppDispatch'
+import { useAppDispatch } from 'src/hooks/useAppDispatch'
 import { fetchPostAuthors } from 'src/store/authors/thunk'
 
 const CourseForm = () => {
@@ -29,8 +29,6 @@ const CourseForm = () => {
 
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
-
-  const authors = useAppSelector((state) => state.authors)
 
   const validateTitle = (title) => {
     if (!title.trim()) {
@@ -88,6 +86,10 @@ const CourseForm = () => {
     setAuthourName(e.target.value)
   }
 
+  const handleCancel = () => {
+    navigate('/courses')
+  }
+
   const addAuthorName = async (event) => {
     event.preventDefault()
     if (authorName.trim()) {
@@ -120,7 +122,7 @@ const CourseForm = () => {
       title,
       description,
       duration: parseInt(duration),
-      authors: authors.map((author) => author.name),
+      authors: newlyCreatedAuthors.map((author) => author.id),
     }
 
     try {
@@ -133,7 +135,6 @@ const CourseForm = () => {
         throw new Error('Failed to save course')
       }
     } catch (error) {
-      // Error handling if the async operation or other logic fails.
       console.error('Failed to save course:', error)
     }
   }
@@ -255,7 +256,9 @@ const CourseForm = () => {
             gap={2}
             justifyContent='flex-end'
           >
-            <CustomButton variant='contained'>Cancel</CustomButton>
+            <CustomButton onClick={handleCancel} variant='contained'>
+              Cancel
+            </CustomButton>
             <CustomButton type='submit' variant='contained'>
               Create course
             </CustomButton>
