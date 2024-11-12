@@ -1,7 +1,7 @@
 import React from 'react'
 import Button from '@mui/material/Button'
-import './Button.scss'
-import { CustomButtonProps } from './ButtonTypes'
+import './CustomButton.scss'
+import { CustomButtonProps } from './CustomButtonTypes'
 
 const CustomButton: React.FC<CustomButtonProps> = ({
   children,

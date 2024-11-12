@@ -2,11 +2,11 @@ import './Header.scss'
 import { Grid, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import Logo from './components/Logo/Logo'
-import CustomButton from 'src/common/Button/Button'
+import CustomButton from 'src/common/Button/CustomButton'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from 'src/store/rootReducer'
+import { useDispatch } from 'react-redux'
 import { logout } from 'src/store/user/userSlice'
+import { useAppSelector } from 'src/hooks/useAppDispatch'
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -14,7 +14,7 @@ const Header = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const username = useSelector((state: RootState) => state.user.name)
+  const username = useAppSelector((state) => state.user.name)
 
   useEffect(() => {
     const token = localStorage.getItem('token')

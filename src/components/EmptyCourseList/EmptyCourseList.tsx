@@ -1,6 +1,6 @@
 import { Grid, Typography } from '@mui/material'
 import React from 'react'
-import CustomButton from 'src/common/Button/Button'
+import CustomButton from 'src/common/Button/CustomButton'
 
 const EmptyCourseList = () => {
   return (

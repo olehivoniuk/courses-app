@@ -3,7 +3,6 @@ import { useState } from 'react'
 import './CourseForm.scss'
 import { Grid, TextField, Typography } from '@mui/material'
 import CustomInput from 'src/common/Input/Input'
-import CustomButton from 'src/common/Button/Button'
 import { formatDuration } from 'src/helpers/getCourseDuration'
 import AuthorItem from './components/AuthorItem/AuthorItem'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -14,6 +13,7 @@ import {
 } from 'src/store/courses/thunk'
 import { useAppDispatch, useAppSelector } from 'src/hooks/useAppDispatch'
 import { fetchAuthors, fetchPostAuthors } from 'src/store/authors/thunk'
+import CustomButton from 'src/common/Button/CustomButton'
 
 const CourseForm = () => {
   const [title, setTitle] = useState('')

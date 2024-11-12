@@ -2,14 +2,32 @@ import { Card, CardContent, Grid, Typography } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import React from 'react'
-import CustomButton from 'src/common/Button/Button'
+import CustomButton from 'src/common/Button/CustomButton'
 import { formatDuration } from 'src/helpers/getCourseDuration'
 import './CourseCard.scss'
 import { Link } from 'react-router-dom'
 import { formatDate } from 'src/helpers/formatCreationDate'
 import { useNavigate } from 'react-router-dom'
 
-const CourseCard = ({ course, authors, onDelete, userRole }) => {
+interface CourseCardProps {
+  course: {
+    title?: string // Making the title optional along with other properties
+    description?: string
+    duration?: number
+    creationDate?: Date | string
+    id?: string
+  }
+  authors: string[]
+  onDelete: () => void
+  userRole?: 'admin' | 'user'
+}
+
+const CourseCard: React.FC<CourseCardProps> = ({
+  course,
+  authors,
+  onDelete,
+  userRole,
+}) => {
   const navigate = useNavigate()
   return (
     <Card className='course-card'>

@@ -1,7 +1,7 @@
 import { Grid, Typography } from '@mui/material'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import React from 'react'
-import CustomButton from 'src/common/Button/Button'
+import CustomButton from 'src/common/Button/CustomButton'
 
 const AuthorItem = ({ authors, removeAuthor }) => {
   return (

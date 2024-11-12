@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Card, CardContent, Typography, Grid } from '@mui/material'
-import CustomButton from 'src/common/Button/Button'
+import CustomButton from 'src/common/Button/CustomButton'
 import { useParams, useNavigate } from 'react-router-dom'
 import { formatDate } from 'src/helpers/formatCreationDate'
 import { formatDuration } from 'src/helpers/getCourseDuration'

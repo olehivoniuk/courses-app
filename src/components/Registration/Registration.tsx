@@ -1,6 +1,6 @@
 import { Grid, Typography } from '@mui/material'
 import React, { useState } from 'react'
-import CustomButton from 'src/common/Button/Button'
+import CustomButton from 'src/common/Button/CustomButton'
 import CustomInput from 'src/common/Input/Input'
 import './Registration.scss'
 import { Link } from 'react-router-dom'

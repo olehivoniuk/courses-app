@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Grid, Typography } from '@mui/material'
 import { Link, useNavigate } from 'react-router-dom'
-import CustomButton from 'src/common/Button/Button'
+import CustomButton from 'src/common/Button/CustomButton'
 import CustomInput from 'src/common/Input/Input'
 import './Login.scss'
 import { isValidEmail, isValidPassword } from 'src/helpers/isValidEmail'

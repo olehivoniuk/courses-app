@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Card, CardContent, Grid, Typography } from '@mui/material'
-import CustomButton from 'src/common/Button/Button'
+import CustomButton from 'src/common/Button/CustomButton'
 import CustomInput from 'src/common/Input/Input'
 import { formatDuration } from 'src/helpers/getCourseDuration'
 import DeleteIcon from '@mui/icons-material/Delete'
