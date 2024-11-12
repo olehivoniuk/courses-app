@@ -7,8 +7,10 @@ import { formatDuration } from 'src/helpers/getCourseDuration'
 import './CourseCard.scss'
 import { Link } from 'react-router-dom'
 import { formatDate } from 'src/helpers/formatCreationDate'
+import { useNavigate } from 'react-router-dom'
 
 const CourseCard = ({ course, authors, onDelete, userRole }) => {
+  const navigate = useNavigate()
   return (
     <Card className='course-card'>
       <CardContent>
@@ -65,7 +67,7 @@ const CourseCard = ({ course, authors, onDelete, userRole }) => {
                       <DeleteIcon />
                     </CustomButton>
                     <CustomButton
-                      onClick={() => console.log('Edit course', course.id)}
+                      onClick={() => navigate(`/courses/update/${course.id}`)}
                       variant='contained'
                     >
                       <EditIcon />

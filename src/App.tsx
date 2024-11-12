@@ -30,7 +30,7 @@ function App() {
         <Route
           path='/courses/update/:courseId'
           element={
-            <PrivateRoute>
+            <PrivateRoute roleRequired='admin'>
               <CourseForm />
             </PrivateRoute>
           }

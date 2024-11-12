@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
 import './CourseForm.scss'
 import { Grid, TextField, Typography } from '@mui/material'
@@ -6,10 +6,10 @@ import CustomInput from 'src/common/Input/Input'
 import CustomButton from 'src/common/Button/Button'
 import { formatDuration } from 'src/helpers/getCourseDuration'
 import AuthorItem from './components/AuthorItem/AuthorItem'
-import { useNavigate } from 'react-router-dom'
-import { fetchCoursesAdd } from 'src/store/courses/thunk'
-import { useAppDispatch } from 'src/hooks/useAppDispatch'
-import { fetchPostAuthors } from 'src/store/authors/thunk'
+import { useNavigate, useParams } from 'react-router-dom'
+import { fetchCourseById, fetchCoursesAdd } from 'src/store/courses/thunk'
+import { useAppDispatch, useAppSelector } from 'src/hooks/useAppDispatch'
+import { fetchAuthors, fetchPostAuthors } from 'src/store/authors/thunk'
 
 const CourseForm = () => {
   const [title, setTitle] = useState('')
@@ -26,9 +26,34 @@ const CourseForm = () => {
   const [newlyCreatedAuthors, setNewlyCreatedAuthors] = useState([])
 
   const [authorName, setAuthourName] = useState('')
+  const [combinedAuthors, setCombinedAuthors] = useState([])
 
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
+  const { courseId } = useParams()
+  const course = useAppSelector((state) =>
+    state.courses.find((c) => c.id === courseId),
+  )
+  const authors = useAppSelector((state) => state.authors)
+
+  useEffect(() => {
+    if (!authors.length) dispatch(fetchAuthors())
+    if (courseId) dispatch(fetchCourseById(courseId))
+  }, [dispatch, courseId, authors.length])
+
+  useEffect(() => {
+    if (course) {
+      setTitle(course.title)
+      setDescription(course.description)
+      setDuration(course.duration.toString())
+      setCombinedAuthors([
+        ...course.authors.map((authorId) =>
+          authors.find((a) => a.id === authorId),
+        ),
+        ...newlyCreatedAuthors,
+      ])
+    }
+  }, [course, newlyCreatedAuthors, authors])
 
   const validateTitle = (title) => {
     if (!title.trim()) {
@@ -96,6 +121,8 @@ const CourseForm = () => {
       try {
         const newAuthor = await dispatch(fetchPostAuthors(authorName)).unwrap()
         setNewlyCreatedAuthors((prev) => [...prev, newAuthor])
+        setCombinedAuthors((prev) => [...prev, newAuthor]) // Also update combined authors
+
         setAuthourName('')
       } catch (error) {
         console.error('Error adding the author:', error)
@@ -105,7 +132,10 @@ const CourseForm = () => {
     }
   }
 
-  const removeAuthor = (id) => {}
+  const removeAuthor = (id) => {
+    setNewlyCreatedAuthors((prev) => prev.filter((author) => author.id !== id))
+    setCombinedAuthors((prev) => prev.filter((author) => author.id !== id))
+  }
 
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -232,8 +262,8 @@ const CourseForm = () => {
               </Grid>
               <Grid>
                 <Typography variant='h6'>Course Authors</Typography>
-                {newlyCreatedAuthors.length > 0 ? (
-                  newlyCreatedAuthors.map((author, index) => (
+                {combinedAuthors.length > 0 ? (
+                  combinedAuthors.map((author, index) => (
                     <Typography key={index} variant='body1'>
                       {author.name}
                     </Typography>
@@ -245,10 +275,7 @@ const CourseForm = () => {
             </Grid>
             <Typography variant='h6'>Authors list</Typography>
 
-            <AuthorItem
-              authors={newlyCreatedAuthors}
-              removeAuthor={removeAuthor}
-            />
+            <AuthorItem authors={combinedAuthors} removeAuthor={removeAuthor} />
           </Grid>
           <Grid
             display='flex'
