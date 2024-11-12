@@ -1,10 +1,10 @@
 export type CourseType = {
-  id: string
-  title: string
-  description: string
-  creationDate: string
-  duration: number
-  authors: string[]
+  id?: string
+  title?: string
+  description?: string
+  duration?: number
+  creationDate?: string
+  authors?: string[]
 }
 
 export interface CourseData {
@@ -12,6 +12,11 @@ export interface CourseData {
   description: string
   duration: number
   authors: string[]
+}
+
+export interface UpdateCourseArgs {
+  courseId: string
+  courseData: CourseType
 }
 
 interface ApiResponse<T> {

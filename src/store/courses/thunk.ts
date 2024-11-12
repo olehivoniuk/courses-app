@@ -1,5 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { CourseData, CourseResponse, CourseType } from './types'
+import {
+  CourseData,
+  CourseResponse,
+  CourseType,
+  UpdateCourseArgs,
+} from './types'
 
 export const fetchCourses = createAsyncThunk(
   'courses/fetchCourses',
@@ -82,3 +87,38 @@ export const fetchCoursesAdd = createAsyncThunk<
     return rejectWithValue(error.message as string)
   }
 })
+
+export const fetchCoursesUpdate = createAsyncThunk<
+  CourseType,
+  UpdateCourseArgs,
+  { rejectValue: string }
+>(
+  'courses/updateCourse',
+  async ({ courseData, courseId }, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem('token')
+      if (!token) {
+        return rejectWithValue('No token found')
+      }
+      const response = await fetch(
+        `http://localhost:4000/courses/${courseId}`,
+        {
+          method: 'PUT',
+          headers: {
+            Authorization: token,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(courseData),
+        },
+      )
+
+      if (!response.ok) {
+        throw new Error('Failed to update the course')
+      }
+
+      return (await response.json()) as CourseType
+    } catch (error) {
+      return rejectWithValue(error.message)
+    }
+  },
+)

@@ -7,7 +7,11 @@ import CustomButton from 'src/common/Button/Button'
 import { formatDuration } from 'src/helpers/getCourseDuration'
 import AuthorItem from './components/AuthorItem/AuthorItem'
 import { useNavigate, useParams } from 'react-router-dom'
-import { fetchCourseById, fetchCoursesAdd } from 'src/store/courses/thunk'
+import {
+  fetchCourseById,
+  fetchCoursesAdd,
+  fetchCoursesUpdate,
+} from 'src/store/courses/thunk'
 import { useAppDispatch, useAppSelector } from 'src/hooks/useAppDispatch'
 import { fetchAuthors, fetchPostAuthors } from 'src/store/authors/thunk'
 
@@ -140,32 +144,34 @@ const CourseForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault()
 
-    const isTitleValid = validateTitle(title)
-    const isDescriptionValid = validateDescription(description)
-    const isDurationValid = validateDuration(duration)
-
     if (!isTitleValid || !isDescriptionValid || !isDurationValid) {
       return
     }
 
     const courseData = {
+      id: courseId,
       title,
       description,
       duration: parseInt(duration),
-      authors: newlyCreatedAuthors.map((author) => author.id),
+      authors: combinedAuthors.map((author) => author.id),
     }
 
     try {
-      const response = await dispatch(fetchCoursesAdd(courseData))
-      if (fetchCoursesAdd.fulfilled.match(response)) {
-        console.log('Course saved successfully:', response.payload)
+      let response
+      if (courseId) {
+        response = await dispatch(fetchCoursesUpdate({ courseData, courseId }))
+      } else {
+        response = await dispatch(fetchCoursesAdd(courseData))
+      }
+      if (response.meta.requestStatus === 'fulfilled') {
+        console.log('Course submit success:', response.payload)
         resetFormFields()
         navigate('/courses')
       } else {
-        throw new Error('Failed to save course')
+        throw new Error('Failed to submit course')
       }
     } catch (error) {
-      console.error('Failed to save course:', error)
+      console.error('Failed to submit course:', error)
     }
   }
 

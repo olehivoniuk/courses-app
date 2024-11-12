@@ -3,6 +3,7 @@ import {
   fetchCourseById,
   fetchCourses,
   fetchCoursesAdd,
+  fetchCoursesUpdate,
   fetchDeleteCourseById,
 } from './thunk'
 import { CourseType } from './types'
@@ -26,6 +27,12 @@ const coursesSlice = createSlice({
       })
       .addCase(fetchCoursesAdd.fulfilled, (state, action) => {
         state.push(action.payload)
+      })
+      .addCase(fetchCoursesUpdate.fulfilled, (state, { payload }) => {
+        const index = state.findIndex((course) => course.id === payload.id)
+        if (index !== -1) {
+          state[index] = payload
+        }
       })
   },
 })
