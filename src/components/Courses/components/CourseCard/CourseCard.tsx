@@ -20,6 +20,7 @@ interface CourseCardProps {
   authors: string[]
   onDelete: () => void
   userRole?: 'admin' | 'user'
+  testId?: string
 }
 
 const CourseCard: React.FC<CourseCardProps> = ({
@@ -27,10 +28,11 @@ const CourseCard: React.FC<CourseCardProps> = ({
   authors,
   onDelete,
   userRole,
+  testId,
 }) => {
   const navigate = useNavigate()
   return (
-    <Card className='course-card'>
+    <Card className='course-card' data-testid={testId}>
       <CardContent>
         <Typography variant='h5' component='div'>
           {course.title}
