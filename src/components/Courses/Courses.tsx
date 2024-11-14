@@ -56,7 +56,6 @@ const Courses = () => {
         {coursesWithAuthorNames.map((course) => (
           <Grid item xs={12} sm={6} md={8} key={course.id}>
             <CourseCard
-              data-testid='courseCard'
               course={course}
               authors={course.authors}
               onDelete={() => handleDeleteCourse(course.id)}

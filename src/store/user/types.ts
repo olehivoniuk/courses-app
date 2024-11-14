@@ -7,7 +7,6 @@ export type UserType = {
   isAuth: boolean
   name: string
   email: string
-  token?: string
+  token: string
   role: string
-  id?: string | null
 }
